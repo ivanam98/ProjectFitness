@@ -13,12 +13,16 @@ public class FitnessCentar implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
 	
+	@Column
 	private String name;
 	
+	@Column
 	private String address;
 	
+	@Column
 	private String numberOfCentar;
 	
+	@Column
 	private String eMailOfCentar;
 	
 	@OneToMany(mappedBy = "fitnessCentar", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
