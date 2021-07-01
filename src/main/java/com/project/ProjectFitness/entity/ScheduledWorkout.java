@@ -1,27 +1,37 @@
 package com.project.ProjectFitness.entity;
 
+import java.time.LocalDateTime;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="workout")
-public class Workout{
+@Table(name="scheduledWorkout")
+public class ScheduledWorkout {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id", unique = true, nullable = false)
 	private long id;
-	private String name;
 	
-	private String description;
+	@ManyToOne
+	private Workout workout;
+	private LocalDateTime dateTime;
+	private double price;
+	private int membersCount;
 	
-	private String typeOfWorkout;
+	@ManyToOne
+	private Hall hall;
 	
-	private int duration;
-
+	@ManyToOne
+	private Coach coach;
+	
+	
+	
 
 }

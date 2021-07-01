@@ -1,34 +1,45 @@
 package com.project.ProjectFitness.entity;
 
-import java.io.Serializable;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.List;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
 
 @Entity
-public class FitnessCentar implements Serializable {
+@Table(name="fitnessCentar")
+public class FitnessCentar{
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
 	
-	@Column
+	
 	private String name;
 	
-	@Column
+	
 	private String address;
 	
-	@Column
-	private String numberOfCentar;
 	
-	@Column
-	private String eMailOfCentar;
+	private String phoneNumber;
 	
-	@OneToMany(mappedBy = "fitnessCentar", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private Set<Coach> coachs = new HashSet<>();
 	
-	@OneToMany(mappedBy = "fitnessCentar", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private Set<Hall> halls = new HashSet<>();
+	private String email;
+	
+	@OneToMany
+	private List<Hall> halls;
+	
+	@OneToMany
+	private List<Coach> coaches;
+	
+	@OneToMany
+	private List<ScheduledWorkout> scheduledWorkouts;
+	
+	
+	
+	
 	
 }
