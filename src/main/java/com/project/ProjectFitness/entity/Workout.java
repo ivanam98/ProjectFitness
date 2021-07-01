@@ -23,5 +23,19 @@ public class Workout{
 	
 	private int duration;
 
+	public Workout(long id, String name, String description, String typeOfWorkout, int duration) {
+		super();
+		this.id = id;
+		this.name = name;
+		this.description = description;
+		this.typeOfWorkout = typeOfWorkout;
+		this.duration = duration;
+	}
+
+	public Workout() {
+	}
+	
+	
+
 
 }

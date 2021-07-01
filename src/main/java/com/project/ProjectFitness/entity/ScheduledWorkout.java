@@ -30,6 +30,25 @@ public class ScheduledWorkout {
 	
 	@ManyToOne
 	private Coach coach;
+
+	public ScheduledWorkout() {
+	}
+
+	public ScheduledWorkout(long id, Workout workout, LocalDateTime dateTime, double price, int membersCount, Hall hall,
+			Coach coach) {
+		super();
+		this.id = id;
+		this.workout = workout;
+		this.dateTime = dateTime;
+		this.price = price;
+		this.membersCount = membersCount;
+		this.hall = hall;
+		this.coach = coach;
+	}
+	
+	
+	
+	
 	
 	
 	
