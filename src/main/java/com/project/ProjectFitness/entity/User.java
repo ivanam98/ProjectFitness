@@ -11,6 +11,8 @@ import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.Table;
 
+import com.project.ProjectFitness.entity.dto.UserDTO;
+
 @Entity
 @Table(name="user")
 @Inheritance(strategy = InheritanceType.JOINED)
@@ -55,6 +57,16 @@ public class User{
 	}
 
 	public User() {
+	}
+
+	public User(UserDTO userDTO) {
+		this.username = userDTO.getUsername();
+		this.password = userDTO.getPassword();
+		this.firstName =  userDTO.getFirstName();
+		this.lastName = userDTO.getLastName();
+		this.phoneNumber = userDTO.getNumber();
+		this.email = userDTO.getEmail();
+		this.dateOfBirth = userDTO.getDateOfBirth();
 	}
 
 	public long getId() {
