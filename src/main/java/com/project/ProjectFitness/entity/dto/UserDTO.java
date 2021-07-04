@@ -3,6 +3,7 @@ package com.project.ProjectFitness.entity.dto;
 import java.time.LocalDate;
 
 import com.project.ProjectFitness.entity.User;
+import com.project.ProjectFitness.entity.UserType;
 
 public class UserDTO {
 	
@@ -14,6 +15,7 @@ public class UserDTO {
     protected String phoneNumber;
     protected String JWTToken;
     protected LocalDate dateOfBirth;
+    protected UserType userType;
 
     public UserDTO() {
 		super();
@@ -22,7 +24,7 @@ public class UserDTO {
 	
 
 	public UserDTO(String firstName, String lastName, String password, String username, String email,
-			String phoneNumber, String jWTToken, LocalDate dateOfBirth, String companyName) {
+			String phoneNumber, String jWTToken, LocalDate dateOfBirth, String companyName, UserType userType) {
 		super();
 		this.firstName = firstName;
 		this.lastName = lastName;
@@ -33,6 +35,7 @@ public class UserDTO {
 		JWTToken = jWTToken;
 		this.dateOfBirth = dateOfBirth;
 		this.companyName = companyName;
+		this.userType = userType;
 	}
 
 
@@ -44,6 +47,8 @@ public class UserDTO {
     	setEmail(user.getEmail());
     	setNumber(user.getPhoneNumber());
     	setDateOfBirth(user.getDateOfBirth());
+    	setUserType(user.getUserType());
+    	
     	
     }
     
@@ -127,6 +132,20 @@ public class UserDTO {
 	public void setDateOfBirth(LocalDate dateOfBirth) {
 		this.dateOfBirth = dateOfBirth;
 	}
+
+
+
+	public UserType getUserType() {
+		return userType;
+	}
+
+
+
+	public void setUserType(UserType userType) {
+		this.userType = userType;
+	}
+	
+	
     
 	
 }
