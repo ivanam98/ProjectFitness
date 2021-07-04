@@ -1,10 +1,16 @@
 package com.project.ProjectFitness.service;
 
+import java.time.LocalDateTime;
+import java.util.Iterator;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.project.ProjectFitness.entity.Member;
+import com.project.ProjectFitness.entity.ScheduledWorkout;
 import com.project.ProjectFitness.entity.User;
 
 
@@ -60,5 +66,54 @@ public class UserServiceImpl implements UserService{
 		user.setActive(true);
 		return userRepository.save(user);
 	}
+
+	@Override
+	public List<ScheduledWorkout> getDoneWorkOuts() {
+		User u = getLoggedUser();
+		if(u instanceof Member) {
+			Member member = (Member) u;
+			List<ScheduledWorkout> scheduledWorkouts = member.getCheckInWorkout();  //Zakazani treninzi
+			
+			Iterator<ScheduledWorkout> itr = scheduledWorkouts.iterator();   //Ovde vrsimo svaki put proveru za one koji su zakazani ako im je prosao datum, da se brisu iz liste zakazanih i prebace u listu gotovih
+			while (itr.hasNext()) { 
+				ScheduledWorkout sc = itr.next(); 
+				if(sc.getDateTime().isAfter(LocalDateTime.now())) {
+					member.getDoneWorkouts().add(sc);
+					scheduledWorkouts.remove(sc); 
+					} 
+				}
+			List<ScheduledWorkout> doneWorkouts = member.getDoneWorkouts();
+			userRepository.save(member); //Proveriti da li dobro referencira na dobavljenog usera
+			return doneWorkouts;
+			}
+			
+		
+		return null;
+	}
+
+	@Override
+	public List<ScheduledWorkout> getScheduledWorkouts() {
+		User u = getLoggedUser();
+		if(u instanceof Member) {
+			Member member = (Member) u;
+			List<ScheduledWorkout> scheduledWorkouts = member.getCheckInWorkout();  //Zakazani treninzi
+			
+			Iterator<ScheduledWorkout> itr = scheduledWorkouts.iterator();   //Ovde vrsimo svaki put proveru za one koji su zakazani ako im je prosao datum, da se brisu iz liste zakazanih i prebace u listu gotovih
+			while (itr.hasNext()) { 
+				ScheduledWorkout sc = itr.next(); 
+				if(sc.getDateTime().isAfter(LocalDateTime.now())) {
+					member.getDoneWorkouts().add(sc);
+					scheduledWorkouts.remove(sc); 
+					} 
+				}
+			userRepository.save(member); //Proveriti da li dobro referencira na dobavljenog usera
+			return scheduledWorkouts;
+			}
+			
+		
+		return null;
+	}
+
+	
 
 }

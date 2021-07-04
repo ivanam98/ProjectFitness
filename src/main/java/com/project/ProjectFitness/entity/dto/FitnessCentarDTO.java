@@ -1,51 +1,26 @@
-package com.project.ProjectFitness.entity;
+package com.project.ProjectFitness.entity.dto;
 
 import java.util.List;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
+import com.project.ProjectFitness.entity.Coach;
+import com.project.ProjectFitness.entity.FitnessCentar;
+import com.project.ProjectFitness.entity.Hall;
+import com.project.ProjectFitness.entity.ScheduledWorkout;
 
-import com.project.ProjectFitness.entity.dto.FitnessCentarDTO;
-
-@Entity
-@Table(name="fitnessCentar")
-public class FitnessCentar{
-	
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+public class FitnessCentarDTO {
 	private long id;
-	
-	
 	private String name;
-	
-	
 	private String address;
-	
-	
 	private String phoneNumber;
-	
-	
 	private String email;
-	
-	@OneToMany
 	private List<Hall> halls;
-	
-	@OneToMany
 	private List<Coach> coaches;
-	
-	@OneToMany
 	private List<ScheduledWorkout> scheduledWorkouts;
-	
-	private boolean deleted = false;
 
-	public FitnessCentar() {
+	public FitnessCentarDTO() {
 	}
 
-	public FitnessCentar(long id, String name, String address, String phoneNumber, String email, List<Hall> halls,
+	public FitnessCentarDTO(long id, String name, String address, String phoneNumber, String email, List<Hall> halls,
 			List<Coach> coaches, List<ScheduledWorkout> scheduledWorkouts) {
 		super();
 		this.id = id;
@@ -58,17 +33,14 @@ public class FitnessCentar{
 		this.scheduledWorkouts = scheduledWorkouts;
 	}
 	
-	public FitnessCentar(FitnessCentarDTO dto) {
-		if(dto.getId() != 0) {
-			this.id = dto.getId();
-		}
-		this.name = dto.getName();
-		this.address = dto.getAddress();
-		this.phoneNumber = dto.getPhoneNumber();
-		this.email = dto.getEmail();
-		this.halls = dto.getHalls();
-		this.coaches = dto.getCoaches();
-		this.scheduledWorkouts = dto.getScheduledWorkouts();
+	public FitnessCentarDTO(FitnessCentar fc) {
+		this.name = fc.getName();
+		this.address = fc.getAddress();
+		this.phoneNumber = fc.getPhoneNumber();
+		this.email = fc.getEmail();
+		this.halls = fc.getHalls();
+		this.coaches = fc.getCoaches();
+		this.scheduledWorkouts = fc.getScheduledWorkouts();
 	}
 
 	public long getId() {
@@ -135,20 +107,4 @@ public class FitnessCentar{
 		this.scheduledWorkouts = scheduledWorkouts;
 	}
 
-	public boolean isDeleted() {
-		return deleted;
-	}
-
-	public void setDeleted(boolean deleted) {
-		this.deleted = deleted;
-	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
 }

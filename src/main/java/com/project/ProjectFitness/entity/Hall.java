@@ -30,6 +30,8 @@ public class Hall {
 	
 	@OneToMany
 	private List<ScheduledWorkout> scheduledWorkouts;
+	
+	private boolean deleted = false;
 
 	public Hall() {
 	}
@@ -84,6 +86,15 @@ public class Hall {
 		this.scheduledWorkouts = scheduledWorkouts;
 	}
 
+	public boolean isDeleted() {
+		return deleted;
+	}
+
+	public void setDeleted(boolean deleted) {
+		this.deleted = deleted;
+	}
+
+	
 	
 	
 	
