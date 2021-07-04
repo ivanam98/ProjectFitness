@@ -9,6 +9,8 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.OneToMany;
 
+import com.project.ProjectFitness.entity.dto.UserDTO;
+
 @Entity
 @DiscriminatorValue("member_user")
 public class Member extends User {
@@ -36,6 +38,10 @@ public class Member extends User {
 		super(id, username, password, firstName, lastName, phoneNumber, email, dateOfBirth, userType, active);
 		this.doneWorkouts = doneWorkouts;
 		this.checkInWorkout = checkInWorkout;
+	}
+
+	public Member(UserDTO userDTO) {
+		super(userDTO);
 	}
 
 	public List<ScheduledWorkout> getDoneWorkouts() {

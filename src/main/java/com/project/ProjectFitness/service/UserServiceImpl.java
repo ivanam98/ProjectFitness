@@ -12,8 +12,7 @@ import org.springframework.stereotype.Service;
 import com.project.ProjectFitness.entity.Member;
 import com.project.ProjectFitness.entity.ScheduledWorkout;
 import com.project.ProjectFitness.entity.User;
-
-
+import com.project.ProjectFitness.entity.UserType;
 import com.project.ProjectFitness.entity.dto.UserDTO;
 import com.project.ProjectFitness.exception.EntityNotFoundException;
 import com.project.ProjectFitness.repository.UserRepository;
@@ -26,13 +25,26 @@ public class UserServiceImpl implements UserService{
 	private UserRepository userRepository;
 	
 
+	@Autowired 
+	private ScheduledWorkoutServiceImpl scheduledWorkoutService;
 	
 	@Autowired
 	private PasswordEncoder passwordEncoder;
+	
+	@Override
+	public Member registerMember(UserDTO userDTO) {
+		Member member = new Member(userDTO);
+		member.setUserType(UserType.MEMBER);
+		member.setActive(false);
+		member.setPassword(passwordEncoder.encode(userDTO.getPassword()));
+		return userRepository.save(member);
+	}
+
 
 	@Override
 	public User saveUser(UserDTO userDTO) {
 		User user = new User(userDTO);
+		user.setUserType(UserType.MEMBER);
 		user.setActive(false);
 		user.setPassword(passwordEncoder.encode(userDTO.getPassword()));
 		User saved = userRepository.save(user);
@@ -113,6 +125,31 @@ public class UserServiceImpl implements UserService{
 		
 		return null;
 	}
+	@Override
+	public User scheduleWorkout(Long id) {
+		ScheduledWorkout sc = scheduledWorkoutService.getScheduledWorkoutById(id);
+		User u = getLoggedUser();
+		if(u instanceof Member) {
+			Member m = (Member) u;
+			if(sc.getMembersCount() < sc.getHall().getCapacity()) {
+				m.getCheckInWorkout().add(sc);
+				return userRepository.save(m);
+			}
+		}
+		return null;
+	}
+
+	public User cancelScheduleWorkout(Long id) {
+		ScheduledWorkout sc = scheduledWorkoutService.getScheduledWorkoutById(id);
+		User u = getLoggedUser();
+		if(u instanceof Member) {
+			Member m = (Member) u;
+			m.getCheckInWorkout().remove(sc);
+			return userRepository.save(m);
+		}
+		return null;
+	}
+
 
 	
 

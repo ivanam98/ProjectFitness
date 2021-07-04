@@ -1,6 +1,6 @@
 package com.project.ProjectFitness.entity;
 
-import java.util.List;
+import java.util.List; 
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -11,6 +11,8 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+
+import com.project.ProjectFitness.entity.dto.HallDTO;
 
 @Entity
 @Table(name="hall")
@@ -44,6 +46,16 @@ public class Hall {
 		this.name = name;
 		this.fitnessCentar = fitnessCentar;
 		this.scheduledWorkouts = scheduledWorkouts;
+	}
+
+	public Hall(HallDTO hallDto) {
+		if(hallDto.getId() != 0) {
+			this.id = hallDto.getId();
+		}
+		this.capacity = hallDto.getCapacity();
+		this.name = hallDto.getName();
+		this.fitnessCentar = hallDto.getFitnessCentar();
+		this.scheduledWorkouts = hallDto.getScheduledWorkouts();
 	}
 
 	public long getId() {

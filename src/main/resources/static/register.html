@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css"
+        integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="functions.js"></script>
+    <title>Fitness Center</title>
+</head>
+
+<body>
+    <div class="jumbotron">
+        <button class="btn btn-primary" id="login-btn-redirect">Log In</button>
+    </div>
+    <div class="container">
+        <form id="register-form">
+            <div class="form-group">
+                <label>Username</label>
+                <input type="text" class="form-control" id="username-input" placeholder="Enter username" required/>
+            </div>
+            <div class="form-group">
+                <label>Password</label>
+                <input type="password" class="form-control" id="password-input" placeholder="Enter password" required/>
+            </div>
+            <div class="form-group">
+                <label>First name</label>
+                <input type="text" class="form-control" id="first-name-input" placeholder="Enter first name" required/>
+            </div>
+
+            <div class="form-group">
+                <label>Last name</label>
+                <input type="text" class="form-control" id="last-name-input" placeholder="Enter last name" required/>
+            </div>
+            <div class="form-group">
+                <label>Phone</label>
+                <input type="text" class="form-control" id="phone-input" placeholder="Enter phone number" required/>
+            </div>
+            <div class="form-group">
+                <label>Email</label>
+                <input type="email" class="form-control" id="email-input" placeholder="Enter email" required/>
+              </div>
+            
+              <div class="form-group">
+                <label>Date of Birth</label>
+                <input type="date" class="form-control" id="dob-input" min="1900-01-01" placeholder="Enter date of birth" required/>
+              </div>
+
+            <button class="btn btn-primary" id="register-user-btn">Register</button>
+        </form>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-Piv4xVNRyMGpqkS2by6br4gNJ7DXjqk09RmUpJ8jgGtD7zP9yug3goQfGII0yAns"
+        crossorigin="anonymous"></script>
+
+    <script>
+        const form = $('#register-form')[0];
+
+        $('#login-btn-redirect').click(function() {
+            location.href = "login.html"
+        })
+
+        $('#register-user-btn').click(function(e) {
+        	e.preventDefault();
+            const isFormValid = form.checkValidity();
+            if (isFormValid) {
+            	const data = {
+                        username: $('#username-input').val(),
+                        password: $('#password-input').val(),
+                        firstName: $('#first-name-input').val(),
+                        lastName: $('#last-name-input').val(),
+                        phoneNumber: $('#phone-input').val(),
+                        email: $('#email-input').val(),
+                        dateOfBirth: $('#dob-input').val()
+                  
+                    }
+                register(data)
+            } 
+        })
+
+    </script>
+</body>
+
+</html>

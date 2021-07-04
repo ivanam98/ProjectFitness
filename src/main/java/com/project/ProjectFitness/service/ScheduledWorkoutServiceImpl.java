@@ -1,5 +1,6 @@
 package com.project.ProjectFitness.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,28 +10,32 @@ import com.project.ProjectFitness.entity.ScheduledWorkout;
 import com.project.ProjectFitness.repository.ScheduledWorkoutRepository;
 
 @Service
-public class ScheduledWorkoutServiceImpl implements ScheduledWorkoutService{
-	
+public class ScheduledWorkoutServiceImpl implements ScheduledWorkoutService {
+
 	@Autowired
-	ScheduledWorkoutRepository scheduledWorkoutRepo;
+	private ScheduledWorkoutRepository scheduledWorkoutRepo;
 
 	@Override
 	public List<ScheduledWorkout> getAllScheduledWorkouts() {
-		// TODO Auto-generated method stub
-		return null;
+		return scheduledWorkoutRepo.findAll();
 	}
 
 	@Override
 	public List<ScheduledWorkout> getAllScheduledWorkoutsByWorkoutId(Long id) {
-		// TODO Auto-generated method stub
-		return null;
+		List<ScheduledWorkout> allScheduledWorkouts = scheduledWorkoutRepo.findAll();
+		List<ScheduledWorkout> scheduledWorkoutsForWorkout = new ArrayList<ScheduledWorkout>();
+		for (ScheduledWorkout scw : allScheduledWorkouts) {
+			if (scw.getWorkout().getId() == id) {
+				scheduledWorkoutsForWorkout.add(scw);
+			}
+		}
+		return scheduledWorkoutsForWorkout;
+
 	}
 
 	@Override
 	public ScheduledWorkout getScheduledWorkoutById(Long id) {
-		// TODO Auto-generated method stub
-		return null;
+		return scheduledWorkoutRepo.getById(id);
 	}
-	
 
 }

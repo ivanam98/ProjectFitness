@@ -17,8 +17,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.project.ProjectFitness.entity.FitnessCentar;
+import com.project.ProjectFitness.entity.Hall;
 import com.project.ProjectFitness.entity.dto.FitnessCentarDTO;
 import com.project.ProjectFitness.service.FitnessCentarServiceImpl;
+import com.project.ProjectFitness.service.HallServiceImpl;
 
 
 
@@ -28,6 +30,9 @@ public class FitnessCentarController {
 	
 	@Autowired
 	private FitnessCentarServiceImpl fitnessCentarService;
+	
+	@Autowired
+	private HallServiceImpl hallService;
 	
 	@GetMapping()
 	public ResponseEntity<List<FitnessCentarDTO>> gettAllFitnessCentar() {
@@ -63,6 +68,12 @@ public class FitnessCentarController {
 	public ResponseEntity<?> deleteFitnessCentar(@PathVariable("id") Long id) {
 		FitnessCentar fc = fitnessCentarService.deleteFitnessCentar(id);
 		return new ResponseEntity<>(fc,HttpStatus.OK);
+	}
+	
+	@GetMapping(value = "/{id}/halls", produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<List<Hall>> getFitnessCentarHalls(@PathVariable("id") Long id) {
+		List<Hall> halls = fitnessCentarService.getFitnessCentarById(id).getHalls();
+		return new ResponseEntity<>(halls, HttpStatus.OK);
 	}
 	
 	
