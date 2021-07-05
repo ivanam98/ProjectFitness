@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css"
+        integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/admin.js"></script>
+    <title>Fitness Center</title>
+</head>
+
+<body>
+    <div class="jumbotron">
+        <button class="btn btn-primary" id="logout-btn">Log Out</button>
+    </div>
+    <div class="container">
+        <form id="fitness-center-form">
+            <div class="form-group">
+                <label>Name</label>
+                <input type="text" class="form-control" id="name-input" placeholder="Enter name" required />
+            </div>
+            <div class="form-group">
+                <label>Address</label>
+                <input type="text" class="form-control" id="address-input" placeholder="Enter address" required />
+            </div>
+            <div class="form-group">
+                <label>Phone Number</label>
+                <input type="text" class="form-control" id="phone-input" placeholder="Enter phone" required />
+            </div>
+            <div class="form-group">
+                <label>Email</label>
+                <input type="email" class="form-control" id="email-input" placeholder="Enter email" required />
+            </div>
+            <button class="btn btn-primary" id="update-btn">Update</button>
+        </form>
+
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-Piv4xVNRyMGpqkS2by6br4gNJ7DXjqk09RmUpJ8jgGtD7zP9yug3goQfGII0yAns"
+        crossorigin="anonymous"></script>
+
+    <script>
+        $('#logout-btn').click(function () {
+            logout()
+            window.location.replace('login.html')
+        })
+        $(document).ready(function() {
+            const queryParamsString = window.location.search;
+            const queryParams = new URLSearchParams(queryParamsString);
+            const fitnessCenterId = queryParams.get('id');
+            $.ajax({
+                type: 'GET',
+                url: 'http://localhost:8080/fitness-centar/' + fitnessCenterId,
+                dataType: 'json',
+                success: function(data, status) {
+                    $('#name-input').val(data.name);
+                    $('#address-input').val(data.address);
+                    $('#phone-input').val(data.phoneNumber);
+                    $('#email').val(data.email);
+                }
+            })
+        })
+
+        $('#update-btn').click(function(e) {
+            e.preventDefault();
+            window.location.reload();
+            const form = $('#fitness-center-form')[0];
+            const isFormValid = form.checkValidity();
+            if (isFormValid) {
+                const queryParamsString = window.location.search;
+                const queryParams = new URLSearchParams(queryParamsString);
+                const fitnessCenterId = queryParams.get('id');
+                const data = {
+                    id: fitnessCenterId,
+                    name: $('#name-input').val(),
+                    address: $('#address-input').val(),
+                    phoneNumber: $('#phone-input').val(),
+                    email: $('#email-input').val(),
+                }
+                updateFitnessCenter(data);
+            } else {
+                alert("Please fill the form");
+            }
+        })
+
+
+    </script>
+</body>
+
+</html>

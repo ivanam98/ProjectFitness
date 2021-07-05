@@ -12,7 +12,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="js/auth.js"></script>
     <script src="js/admin.js"></script>
-    <title>Fitness Centers</title>
+    <title>Halls</title>
 </head>
 
 <body>
@@ -21,16 +21,14 @@
     </div>
     <div class="container">
         <div>
-            <button class="btn btn-primary" id="new-fitness-center-btn">New Fitness Center</button>
+            <button class="btn btn-primary" id="new-hall-btn">New Hall</button>
         </div>
         <table class="table table-hover" id="table-fitness-centers">
             <thead>
                 <tr>
                     <th scope="col">ID</th>
                     <th scope="col">Name</th>
-                    <th scope="col">Address</th>
-                    <th scope="col">Phone number</th>
-                    <th scope="col">Email</th>
+                    <th scope="col">Capacity</th>
                     <th scope="col">Actions</th>
                 </tr>
             </thead>
@@ -49,14 +47,18 @@
             window.location.replace('login.html')
         })
 
-        $('#new-fitness-center-btn').click(function () {
-            location.href = "new-fitness-center.html";
+        $('#new-hall-btn').click(function() {
+            location.href = "new-hall.html";
         })
+        const queryParamsString = window.location.search;
+        const queryParams = new URLSearchParams(queryParamsString);
+        const fitnessCenterId = queryParams.get('fitnessCenter');
 
         $(document).ready(
+            
             $.ajax({
                 type: "GET",
-                url: "https://jsonplaceholder.typicode.com/posts",
+                url: "https://jsonplaceholder.typicode.com/posts/" + fitnessCenterId,
                 dataType: "json",
                 success: function (data, status) {
                     let tableRows = ''
@@ -65,13 +67,10 @@
                         tableRow += '<tr class="clickable-row" row-id="' + row.id + '">';
                         tableRow += '<td>' + row.id + '</td>';
                         tableRow += '<td>' + row.name + '</td>';
-                        tableRow += '<td>' + row.address + '</td>';
-                        tableRow += '<td>' + row.phoneNumber + '</td>';
-                        tableRow += '<td>' + row.email + '</td>';
+                        tableRow += '<td>' + row.capacity + '</td>';
                         tableRow += '<td>';
                         tableRow += '<button class="btn btn-outline-primary edit-btn" row-id="' + row.id + '" hidden>Edit</button>';
                         tableRow += '<button class="btn btn-outline-danger delete-btn" row-id="' + row.id + '" hidden>Delete</button>';
-                        tableRow += '<button class="btn btn-outline-warning halls-btn" row-id="' + row.id + '" hidden>Halls</button>'
                         tableRow += '</td>';
                         tableRow += '</tr>'
                         tableRows += tableRow;
@@ -83,29 +82,22 @@
                         location.href = 'workouts.html?id=' + rowId;
                     })
 
-                    $(".edit-btn").click(function (e) {
+                    $(".edit-btn").click(function(e) {
                         e.stopPropagation();
                         const rowId = $(this).attr('row-id');
-                        location.href = 'fitness-center.html?id=' + rowId;
+                        location.href = 'hall.html?id=' + rowId; 
                     })
 
-                    $(".delete-btn").click(function (e) {
+                    $(".delete-btn").click(function(e) {
                         e.stopPropagation();
                         const rowId = $(this).attr('row-id');
                         deleteFitnessCenter(rowId);
-                    })
-
-                    $(".halls-btn").click(function (e) {
-                        e.stopPropagation();
-                        const rowId = $(this).attr('row-id');
-                        location.href = 'halls.html/fitnessCenter=' + rowId;
                     })
 
                     const loggedUserType = getLoggedUserType();
                     if (loggedUserType == 'admin_user') {
                         $('.edit-btn').attr('hidden', false);
                         $('.delete-btn').attr('hidden', false);
-                        $('.halls-btn').attr('hidden', false);
                     }
                 }
             })

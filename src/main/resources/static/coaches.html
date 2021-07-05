@@ -12,25 +12,25 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="js/auth.js"></script>
     <script src="js/admin.js"></script>
-    <title>Fitness Centers</title>
+    <title>Coaches</title>
 </head>
 
 <body>
     <div class="jumbotron">
-        <button class="btn btn-primary" id="login-btn">Log In</button>
+        <button class="btn btn-primary" id="logout-btn">Log Out</button>
     </div>
     <div class="container">
-        <div>
-            <button class="btn btn-primary" id="new-fitness-center-btn">New Fitness Center</button>
-        </div>
-        <table class="table table-hover" id="table-fitness-centers">
+
+        <table class="table table-hover" id="table-coaches">
             <thead>
                 <tr>
                     <th scope="col">ID</th>
-                    <th scope="col">Name</th>
-                    <th scope="col">Address</th>
-                    <th scope="col">Phone number</th>
+                    <th scope="col">First Name</th>
+                    <th scope="col">Last Name</th>
+                    <th scope="col">Username</th>
+                    <th scope="col">Phone Number</th>
                     <th scope="col">Email</th>
+                    <th scope="col">Fitness Center</th>
                     <th scope="col">Actions</th>
                 </tr>
             </thead>
@@ -45,12 +45,9 @@
         crossorigin="anonymous"></script>
 
     <script>
-        $('#login-btn').click(function () {
+        $('#logout-btn').click(function () {
+            logout()
             window.location.replace('login.html')
-        })
-
-        $('#new-fitness-center-btn').click(function () {
-            location.href = "new-fitness-center.html";
         })
 
         $(document).ready(
@@ -62,50 +59,31 @@
                     let tableRows = ''
                     data.forEach(function (row) {
                         let tableRow = '';
-                        tableRow += '<tr class="clickable-row" row-id="' + row.id + '">';
+                        tableRow += '<tr>';
                         tableRow += '<td>' + row.id + '</td>';
-                        tableRow += '<td>' + row.name + '</td>';
-                        tableRow += '<td>' + row.address + '</td>';
+                        tableRow += '<td>' + row.firstName + '</td>';
+                        tableRow += '<td>' + row.lastName + '</td>';
+                        tableRow += '<td>' + row.username + '</td>';
                         tableRow += '<td>' + row.phoneNumber + '</td>';
                         tableRow += '<td>' + row.email + '</td>';
+                        tableRow += '<td>' + row.fitnessCentar.name + '</td>';
                         tableRow += '<td>';
-                        tableRow += '<button class="btn btn-outline-primary edit-btn" row-id="' + row.id + '" hidden>Edit</button>';
                         tableRow += '<button class="btn btn-outline-danger delete-btn" row-id="' + row.id + '" hidden>Delete</button>';
-                        tableRow += '<button class="btn btn-outline-warning halls-btn" row-id="' + row.id + '" hidden>Halls</button>'
                         tableRow += '</td>';
                         tableRow += '</tr>'
                         tableRows += tableRow;
                     });
                     $('#table-content').append(tableRows);
 
-                    $(".clickable-row").click(function () {
-                        const rowId = $(this).attr('row-id');
-                        location.href = 'workouts.html?id=' + rowId;
-                    })
-
-                    $(".edit-btn").click(function (e) {
+                    $(".delete-btn").click(function(e) {
                         e.stopPropagation();
                         const rowId = $(this).attr('row-id');
-                        location.href = 'fitness-center.html?id=' + rowId;
-                    })
-
-                    $(".delete-btn").click(function (e) {
-                        e.stopPropagation();
-                        const rowId = $(this).attr('row-id');
-                        deleteFitnessCenter(rowId);
-                    })
-
-                    $(".halls-btn").click(function (e) {
-                        e.stopPropagation();
-                        const rowId = $(this).attr('row-id');
-                        location.href = 'halls.html/fitnessCenter=' + rowId;
+                        deleteCoach(rowId);
                     })
 
                     const loggedUserType = getLoggedUserType();
                     if (loggedUserType == 'admin_user') {
-                        $('.edit-btn').attr('hidden', false);
                         $('.delete-btn').attr('hidden', false);
-                        $('.halls-btn').attr('hidden', false);
                     }
                 }
             })

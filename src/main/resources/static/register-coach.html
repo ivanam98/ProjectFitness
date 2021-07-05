@@ -11,12 +11,13 @@
         integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="js/auth.js"></script>
-    <title>Register</title>
+    <script src="js/admin.js"></script>
+    <title>Register Coach</title>
 </head>
 
 <body>
     <div class="jumbotron">
-        <button class="btn btn-primary" id="login-btn-redirect">Log In</button>
+        <button class="btn btn-primary" id="logout-btn">Log Out</button>
     </div>
     <div class="container">
         <form id="register-form">
@@ -45,6 +46,12 @@
                 <label>Email</label>
                 <input type="email" class="form-control" id="email-input" placeholder="Enter email" required />
             </div>
+            <div class="form-group">
+                <label>Fitness Center</label>
+                <select class="form-control" id="fitness-center-select">
+
+                </select>
+            </div>
 
             <div class="form-group">
                 <label>Date of Birth</label>
@@ -52,7 +59,7 @@
                     placeholder="Enter date of birth" required />
             </div>
 
-            <button class="btn btn-primary" id="register-user-btn">Register</button>
+            <button class="btn btn-primary" id="register-coach-btn">Register</button>
         </form>
     </div>
 
@@ -63,11 +70,33 @@
     <script>
         const form = $('#register-form')[0];
 
-        $('#login-btn-redirect').click(function () {
-            location.href = "login.html"
+        $('#logout-btn').click(function () {
+            logout()
+            window.location.replace('login.html')
         })
 
-        $('#register-user-btn').click(function (e) {
+        $(document).ready(function () {
+            $.ajax({
+                type: "GET",
+                url: "https://localhost:8080/fitness-centar",
+                headers: {
+                    "Authorization": "X-Auth-T " + getToken()
+                },
+                dataType: 'json',
+                success: function(data, status) {
+                    let options = '';
+                    data.forEach(function (center) {
+                        let option = '<option value="' + center.id + '">';
+                        option += center.name;
+                        option += '</option>';
+                        options += option;
+                    })
+                    $('#fitness-center-select').append(options);
+                }
+            })
+        })
+
+        $('#register-coach-btn').click(function (e) {
             e.preventDefault();
             const isFormValid = form.checkValidity();
             if (isFormValid) {
@@ -78,10 +107,11 @@
                     lastName: $('#last-name-input').val(),
                     phoneNumber: $('#phone-input').val(),
                     email: $('#email-input').val(),
-                    dateOfBirth: $('#dob-input').val()
+                    dateOfBirth: $('#dob-input').val(),
+                    fitnessCenterID: $('#fitness-center-select').find(':selected').val()
 
                 }
-                register(data)
+                registerCoach(data);
             }
         })
 
