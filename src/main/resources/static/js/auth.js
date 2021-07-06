@@ -18,7 +18,7 @@ function login(data) {
         data: JSON.stringify(data),
         contentType: "application/json; charset=utf-8",
         success: function(data, status) {
-            localStorage.setItem('token', data.JWTToken);
+            localStorage.setItem('token', data.jwttoken);
             localStorage.setItem('user', data.id);
             localStorage.setItem('userType', data.userType);
         },

@@ -9,6 +9,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.project.ProjectFitness.entity.Hall;
 import com.project.ProjectFitness.entity.Member;
 import com.project.ProjectFitness.entity.ScheduledWorkout;
 import com.project.ProjectFitness.entity.User;
@@ -17,20 +18,21 @@ import com.project.ProjectFitness.entity.dto.UserDTO;
 import com.project.ProjectFitness.exception.EntityNotFoundException;
 import com.project.ProjectFitness.repository.UserRepository;
 
-
 @Service
-public class UserServiceImpl implements UserService{
-	
+public class UserServiceImpl implements UserService {
+
 	@Autowired
 	private UserRepository userRepository;
-	
 
-	@Autowired 
+	@Autowired
 	private ScheduledWorkoutServiceImpl scheduledWorkoutService;
-	
+
+	@Autowired
+	private HallServiceImpl hallService;
+
 	@Autowired
 	private PasswordEncoder passwordEncoder;
-	
+
 	@Override
 	public Member registerMember(UserDTO userDTO) {
 		Member member = new Member(userDTO);
@@ -39,7 +41,6 @@ public class UserServiceImpl implements UserService{
 		member.setPassword(passwordEncoder.encode(userDTO.getPassword()));
 		return userRepository.save(member);
 	}
-
 
 	@Override
 	public User saveUser(UserDTO userDTO) {
@@ -51,11 +52,10 @@ public class UserServiceImpl implements UserService{
 		return saved;
 	}
 
-	public User getUserByUsername(String username) {	
+	public User getUserByUsername(String username) {
 		User user = userRepository.findByUsername(username);
 		return user;
 	}
-	
 
 	@Override
 	public User getLoggedUser() {
@@ -64,9 +64,8 @@ public class UserServiceImpl implements UserService{
 		} catch (Exception e) {
 			if (e instanceof NullPointerException) {
 				return null;
-			}
-			else if(e instanceof EntityNotFoundException) {
-				return null; //Vraca null za korisnika koji nije ulogovan kada se pozove getLoggedUser()
+			} else if (e instanceof EntityNotFoundException) {
+				return null; // Vraca null za korisnika koji nije ulogovan kada se pozove getLoggedUser()
 			}
 			e.printStackTrace();
 			throw e;
@@ -81,76 +80,73 @@ public class UserServiceImpl implements UserService{
 
 	@Override
 	public List<ScheduledWorkout> getDoneWorkOuts() {
-		User u = getLoggedUser();
-		if(u instanceof Member) {
-			Member member = (Member) u;
-			List<ScheduledWorkout> scheduledWorkouts = member.getCheckInWorkout();  //Zakazani treninzi
-			
-			Iterator<ScheduledWorkout> itr = scheduledWorkouts.iterator();   //Ovde vrsimo svaki put proveru za one koji su zakazani ako im je prosao datum, da se brisu iz liste zakazanih i prebace u listu gotovih
-			while (itr.hasNext()) { 
-				ScheduledWorkout sc = itr.next(); 
-				if(sc.getDateTime().isAfter(LocalDateTime.now())) {
-					member.getDoneWorkouts().add(sc);
-					scheduledWorkouts.remove(sc); 
-					} 
-				}
-			List<ScheduledWorkout> doneWorkouts = member.getDoneWorkouts();
-			userRepository.save(member); //Proveriti da li dobro referencira na dobavljenog usera
-			return doneWorkouts;
+		Member member = (Member) getLoggedUser();
+
+		List<ScheduledWorkout> scheduledWorkouts = member.getCheckInWorkout(); // Zakazani treninzi
+
+		Iterator<ScheduledWorkout> itr = scheduledWorkouts.iterator(); // Ovde vrsimo svaki put proveru za one koji su
+																		// zakazani ako im je prosao datum, da se brisu
+																		// iz liste zakazanih i prebace u listu gotovih
+		while (itr.hasNext()) {
+			ScheduledWorkout sc = itr.next();
+			if (sc.getDateTime().isAfter(LocalDateTime.now())) {
+				member.getDoneWorkouts().add(sc);
+				scheduledWorkouts.remove(sc);
 			}
-			
-		
-		return null;
+		}
+		List<ScheduledWorkout> doneWorkouts = member.getDoneWorkouts();
+		userRepository.save(member); // Proveriti da li dobro referencira na dobavljenog usera
+		return doneWorkouts;
 	}
 
 	@Override
 	public List<ScheduledWorkout> getScheduledWorkouts() {
-		User u = getLoggedUser();
-		if(u instanceof Member) {
-			Member member = (Member) u;
-			List<ScheduledWorkout> scheduledWorkouts = member.getCheckInWorkout();  //Zakazani treninzi
-			
-			Iterator<ScheduledWorkout> itr = scheduledWorkouts.iterator();   //Ovde vrsimo svaki put proveru za one koji su zakazani ako im je prosao datum, da se brisu iz liste zakazanih i prebace u listu gotovih
-			while (itr.hasNext()) { 
-				ScheduledWorkout sc = itr.next(); 
-				if(sc.getDateTime().isAfter(LocalDateTime.now())) {
+		Member member = (Member) getLoggedUser();
+
+		List<ScheduledWorkout> scheduledWorkouts = member.getCheckInWorkout(); // Zakazani treninzi
+		if (scheduledWorkouts.size() != 0) {
+			Iterator<ScheduledWorkout> itr = scheduledWorkouts.iterator(); // Ovde vrsimo svaki put proveru za one koji
+																			// su
+			// zakazani ako im je prosao datum, da se brisu
+			// iz liste zakazanih i prebace u listu gotovih
+			while (itr.hasNext()) {
+				ScheduledWorkout sc = itr.next();
+				if (sc.getDateTime().isBefore(LocalDateTime.now())) {
 					member.getDoneWorkouts().add(sc);
-					scheduledWorkouts.remove(sc); 
-					} 
+					itr.remove();
+
 				}
-			userRepository.save(member); //Proveriti da li dobro referencira na dobavljenog usera
-			return scheduledWorkouts;
 			}
-			
-		
-		return null;
+			userRepository.save(member); // Proveriti da li dobro referencira na dobavljenog usera
+			return scheduledWorkouts;
+		}
+		else return null;
+
 	}
+
 	@Override
 	public User scheduleWorkout(Long id) {
 		ScheduledWorkout sc = scheduledWorkoutService.getScheduledWorkoutById(id);
-		User u = getLoggedUser();
-		if(u instanceof Member) {
-			Member m = (Member) u;
-			if(sc.getMembersCount() < sc.getHall().getCapacity()) {
-				m.getCheckInWorkout().add(sc);
-				return userRepository.save(m);
-			}
+		Hall hall = hallService.getHallById(sc.getHallId());
+		Member m = (Member) getLoggedUser();
+
+		if (sc.getMembersCount() < hall.getCapacity()) {
+			m.getCheckInWorkout().add(sc);
+			return userRepository.save(m);
 		}
 		return null;
+
 	}
 
 	public User cancelScheduleWorkout(Long id) {
 		ScheduledWorkout sc = scheduledWorkoutService.getScheduledWorkoutById(id);
 		User u = getLoggedUser();
-		if(u instanceof Member) {
+		if (u instanceof Member) {
 			Member m = (Member) u;
 			m.getCheckInWorkout().remove(sc);
 			return userRepository.save(m);
 		}
 		return null;
 	}
-
-
-	
 
 }

@@ -35,7 +35,7 @@ public class ScheduledWorkoutServiceImpl implements ScheduledWorkoutService {
 
 	@Override
 	public ScheduledWorkout getScheduledWorkoutById(Long id) {
-		return scheduledWorkoutRepo.getById(id);
+		return scheduledWorkoutRepo.findById(id).orElse(null);
 	}
 
 }

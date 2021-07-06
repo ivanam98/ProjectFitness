@@ -47,12 +47,13 @@
             window.location.replace('login.html')
         })
 
-        $(document).ready(
+        $(document).ready(function(){
+            console.log("aaa");
             $.ajax({
                 type: "GET",
                 url: "http://localhost:8080/user/scheduled-workouts",
                 headers: {
-                    "Authorization": "X-Auth-T " + getToken()
+                "X-Auth-T" : getToken()
                 },
                 dataType: "json",
                 success: function (data, status) {
@@ -78,7 +79,8 @@
                     })
                 }
             })
-        )
+            console.log("bbb");
+        })
 
 
     </script>

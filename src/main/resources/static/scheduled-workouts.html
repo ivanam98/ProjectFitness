@@ -53,7 +53,7 @@
         $(document).ready(
             $.ajax({
                 type: "GET",
-                url: "https://jsonplaceholder.typicode.com/posts",
+                url: "http://localhost:8080/scheduled-workout/workout/" + workoutId,
                 dataType: "json",
                 success: function (data, status) {
                     let tableRows = ''
@@ -63,10 +63,10 @@
                         tableRow += '<tr class="clickable-row" row-id="' + row.id + '">';
                         tableRow += '<td>' + row.id + '</td>'
                         tableRow += '<td>' + row.workout?.name + '</td>'
-                        tableRow += '<td>' + row.dateTime + '</td>'
+                        tableRow += '<td>' + new Date(row.dateTime).toLocaleString() + '</td>'
                         tableRow += '<td>' + row.price + '</td>'
                         tableRow += '<td>' + row.membersCount + '</td>'
-                        tableRow += '<td><button id="check-in-btn" row-id="' + row.id + '" class="btn btn-primary" hidden>Check In</button></td>'
+                        tableRow += '<td><button id="check-in-btn" row-id="' + row.id + '" class="btn btn-primary check-in" hidden>Check In</button></td>'
                         tableRow += '</tr>'
                         tableRows += tableRow;
                     });
@@ -77,10 +77,16 @@
                         location.href = 'scheduled-workouts.html?id=' + rowId;
                     })
 
-                    $('#check-in-btn').click(function() {
+                    $('#check-in-btn').click(function(e) {
+                    	e.preventDefault();
                         const rowId = $(this).attr('row-id');
                         checkInWorkout(rowId);
                     })
+                    
+                    
+                    if (loggedUserType == 'MEMBER') {
+                        $('.check-in').attr('hidden', false);
+                    }
                 }
             })
         )

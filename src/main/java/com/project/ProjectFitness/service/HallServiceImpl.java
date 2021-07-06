@@ -25,7 +25,7 @@ public class HallServiceImpl implements HallService{
 
 	@Override
 	public Hall getHallById(Long id) {
-		return hallRepo.getById(id);
+		return hallRepo.findById(id).orElse(null);
 	}
 
 	@Override
@@ -46,7 +46,7 @@ public class HallServiceImpl implements HallService{
 
 	@Override
 	public Hall deleteHall(Long id) {
-		Hall hall = hallRepo.getById(id);
+		Hall hall = hallRepo.findById(id).orElse(null);
 		hall.setDeleted(true);
 		hallRepo.save(hall);
 		return hall;

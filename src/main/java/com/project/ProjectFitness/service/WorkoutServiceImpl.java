@@ -20,7 +20,7 @@ public class WorkoutServiceImpl implements WorkoutService{
 
 	@Override
 	public Workout getWorkoutById(Long id) {
-		return workoutRepo.getById(id);
+		return workoutRepo.findById(id).orElse(null);
 	}
 	
 

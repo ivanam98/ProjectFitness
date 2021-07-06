@@ -1,9 +1,9 @@
 function checkInWorkout(workoutId) {
     $.ajax({
         type: "POST",
-        url: 'http://localhost:8080/users/schedule-workout/' + workoutId,
+        url: 'http://localhost:8080/user/schedule-workout/' + workoutId,
         headers: {
-            "Authorization": "X-Auth-T " + getToken()
+            "X-Auth-T" : getToken()
         },
         success: function(data, status) {
             alert('success!')
@@ -17,7 +17,7 @@ function checkInWorkout(workoutId) {
 function cancelScheduledWorkout(workoutId) {
     $.ajax({
         type: "POST",
-        url: 'http://localhost:8080/users/cancel-schedule-workout/' + workoutId,
+        url: 'http://localhost:8080/user/cancel-schedule-workout/' + workoutId,
         success: function(data, status) {
             alert('success!');
         },

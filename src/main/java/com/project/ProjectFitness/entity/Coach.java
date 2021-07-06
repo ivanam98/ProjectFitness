@@ -1,25 +1,21 @@
 package com.project.ProjectFitness.entity;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
-import javax.persistence.CascadeType;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
 @Entity
 @DiscriminatorValue("coach_user")
 public class Coach extends User {
 
-	@OneToMany(mappedBy = "coach", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private List<ScheduledWorkout> workouts;
+	@OneToMany()
+    private List<ScheduledWorkout> workouts = new ArrayList<ScheduledWorkout>();
 
-	
-	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    private FitnessCentar fitnessCentar;
+	private Long fitnessCentarId;
 
 
 	public Coach() {
@@ -35,12 +31,15 @@ public class Coach extends User {
 	}
 
 
+	
+
+
 	public Coach(long id, String username, String password, String firstName, String lastName, String phoneNumber,
 			String email, LocalDate dateOfBirth, UserType userType, boolean active, List<ScheduledWorkout> workouts,
-			FitnessCentar fitnessCentar) {
+			Long fitnessCentarId) {
 		super(id, username, password, firstName, lastName, phoneNumber, email, dateOfBirth, userType, active);
 		this.workouts = workouts;
-		this.fitnessCentar = fitnessCentar;
+		this.fitnessCentarId = fitnessCentarId;
 	}
 
 
@@ -54,14 +53,16 @@ public class Coach extends User {
 	}
 
 
-	public FitnessCentar getFitnessCentar() {
-		return fitnessCentar;
+	public Long getFitnessCentarId() {
+		return fitnessCentarId;
 	}
 
 
-	public void setFitnessCentar(FitnessCentar fitnessCentar) {
-		this.fitnessCentar = fitnessCentar;
+	public void setFitnessCentarId(Long fitnessCentarId) {
+		this.fitnessCentarId = fitnessCentarId;
 	}
+
+
 	
 	
 }

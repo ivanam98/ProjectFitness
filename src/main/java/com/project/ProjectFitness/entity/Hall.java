@@ -1,6 +1,6 @@
 package com.project.ProjectFitness.entity;
 
-import java.util.List; 
+import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -12,50 +12,63 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.project.ProjectFitness.entity.dto.HallDTO;
 
 @Entity
-@Table(name="hall")
+@Table(name = "hall")
 public class Hall {
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
 
 	private long capacity;
-	
+
 	private String name;
-	
-	
-	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    private FitnessCentar fitnessCentar;
-	
+
+	private Long fitnessCentarId;
+
 	@OneToMany
 	private List<ScheduledWorkout> scheduledWorkouts;
-	
+
 	private boolean deleted = false;
 
 	public Hall() {
 	}
+	
+	
 
-	public Hall(long id, long capacity, String name, FitnessCentar fitnessCentar,
-			List<ScheduledWorkout> scheduledWorkouts) {
+	public Hall(long id, long capacity, String name, Long fitnessCentarId, List<ScheduledWorkout> scheduledWorkouts,
+			boolean deleted) {
 		super();
 		this.id = id;
 		this.capacity = capacity;
 		this.name = name;
-		this.fitnessCentar = fitnessCentar;
+		this.fitnessCentarId = fitnessCentarId;
 		this.scheduledWorkouts = scheduledWorkouts;
+		this.deleted = deleted;
 	}
 
+
+
 	public Hall(HallDTO hallDto) {
-		if(hallDto.getId() != 0) {
+		if (hallDto.getId() != 0) {
 			this.id = hallDto.getId();
 		}
 		this.capacity = hallDto.getCapacity();
 		this.name = hallDto.getName();
-		this.fitnessCentar = hallDto.getFitnessCentar();
+		this.fitnessCentarId = hallDto.getFitnessCentarId();
 		this.scheduledWorkouts = hallDto.getScheduledWorkouts();
+	}
+
+	public Long getFitnessCentarId() {
+		return fitnessCentarId;
+	}
+
+	public void setFitnessCentarId(Long fitnessCentarId) {
+		this.fitnessCentarId = fitnessCentarId;
 	}
 
 	public long getId() {
@@ -82,14 +95,6 @@ public class Hall {
 		this.name = name;
 	}
 
-	public FitnessCentar getFitnessCentar() {
-		return fitnessCentar;
-	}
-
-	public void setFitnessCentar(FitnessCentar fitnessCentar) {
-		this.fitnessCentar = fitnessCentar;
-	}
-
 	public List<ScheduledWorkout> getScheduledWorkouts() {
 		return scheduledWorkouts;
 	}
@@ -106,8 +111,4 @@ public class Hall {
 		this.deleted = deleted;
 	}
 
-	
-	
-	
-	
 }

@@ -1,5 +1,6 @@
 package com.project.ProjectFitness.entity;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.Entity;
@@ -9,6 +10,7 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.project.ProjectFitness.entity.dto.FitnessCentarDTO;
 
 @Entity
@@ -31,14 +33,17 @@ public class FitnessCentar{
 	
 	private String email;
 	
+	@JsonManagedReference
 	@OneToMany
-	private List<Hall> halls;
+	private List<Hall> halls = new ArrayList<Hall>();;
 	
+	@JsonManagedReference
 	@OneToMany
-	private List<Coach> coaches;
+	private List<Coach> coaches = new ArrayList<Coach>();;
 	
+	@JsonManagedReference
 	@OneToMany
-	private List<ScheduledWorkout> scheduledWorkouts;
+	private List<ScheduledWorkout> scheduledWorkouts = new ArrayList<ScheduledWorkout>();
 	
 	private boolean deleted = false;
 

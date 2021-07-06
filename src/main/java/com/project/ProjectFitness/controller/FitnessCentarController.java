@@ -20,7 +20,6 @@ import com.project.ProjectFitness.entity.FitnessCentar;
 import com.project.ProjectFitness.entity.Hall;
 import com.project.ProjectFitness.entity.dto.FitnessCentarDTO;
 import com.project.ProjectFitness.service.FitnessCentarServiceImpl;
-import com.project.ProjectFitness.service.HallServiceImpl;
 
 
 
@@ -30,12 +29,10 @@ public class FitnessCentarController {
 	
 	@Autowired
 	private FitnessCentarServiceImpl fitnessCentarService;
-	
-	@Autowired
-	private HallServiceImpl hallService;
+
 	
 	@GetMapping()
-	public ResponseEntity<List<FitnessCentarDTO>> gettAllFitnessCentar() {
+	public ResponseEntity<List<FitnessCentarDTO>> getAllFitnessCentar() {
 		List<FitnessCentar> allFitnessCentar = fitnessCentarService.getAllFitnesCentar();
 		List<FitnessCentarDTO> allFitnessCemtarDTO = new ArrayList<FitnessCentarDTO>();
 		for (FitnessCentar fitnessCentar : allFitnessCentar) {

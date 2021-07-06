@@ -23,11 +23,12 @@ public class FitnessCentarServiceImpl implements FitnessCentarService{
 
 	@Override
 	public FitnessCentar getFitnessCentarById(Long id) {
-		return fitnessCentarRepo.getById(id);
+		return fitnessCentarRepo.findById(id).orElse(null);
 	}
 
 	@Override
 	public List<FitnessCentar> getAllFitnesCentar() {
+		
 		return fitnessCentarRepo.findAll();
 	}
 	@Override

@@ -34,6 +34,7 @@ public class FitnessCentarDTO {
 	}
 	
 	public FitnessCentarDTO(FitnessCentar fc) {
+		this.id = fc.getId();
 		this.name = fc.getName();
 		this.address = fc.getAddress();
 		this.phoneNumber = fc.getPhoneNumber();

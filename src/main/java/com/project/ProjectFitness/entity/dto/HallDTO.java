@@ -42,7 +42,7 @@ public class HallDTO {
 		this.id = hall.getId();
 		this.capacity = hall.getCapacity();
 		this.name = hall.getName();
-		this.fitnessCentar = hall.getFitnessCentar();
+		this.fitnessCentarId = hall.getFitnessCentarId();
 		this.scheduledWorkouts = hall.getScheduledWorkouts();
 		this.deleted = hall.isDeleted();
 	}

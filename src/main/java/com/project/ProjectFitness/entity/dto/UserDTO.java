@@ -7,6 +7,7 @@ import com.project.ProjectFitness.entity.UserType;
 
 public class UserDTO {
 	
+	protected Long id;
 	protected String firstName;
 	protected String lastName;
 	protected String password;
@@ -23,24 +24,25 @@ public class UserDTO {
 
 	
 
-	public UserDTO(String firstName, String lastName, String password, String username, String email,
-			String phoneNumber, String jWTToken, LocalDate dateOfBirth, String companyName, UserType userType) {
+	public UserDTO(Long id, String firstName, String lastName, String password, String username, String email,
+			String phoneNumber, String jWTToken, LocalDate dateOfBirth, UserType userType) {
 		super();
+		this.id = id;
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.password = password;
 		this.username = username;
 		this.email = email;
 		this.phoneNumber = phoneNumber;
-		JWTToken = jWTToken;
+		this.JWTToken = jWTToken;
 		this.dateOfBirth = dateOfBirth;
-		this.companyName = companyName;
 		this.userType = userType;
 	}
 
 
 
 	public UserDTO(User user) {
+		setId(user.getId());
     	setFirstName(user.getFirstName());
     	setLastName(user.getLastName());
     	setUsername(user.getUsername());
@@ -144,6 +146,19 @@ public class UserDTO {
 	public void setUserType(UserType userType) {
 		this.userType = userType;
 	}
+
+
+
+	public Long getId() {
+		return id;
+	}
+
+
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+	
 	
 	
     

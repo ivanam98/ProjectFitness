@@ -25,26 +25,53 @@ public class ScheduledWorkout {
 	private double price;
 	private int membersCount;
 	
-	@ManyToOne
-	private Hall hall;
+	private Long hallId;
 	
-	@ManyToOne
-	private Coach coach;
+	private Long coachId;
 
 	public ScheduledWorkout() {
 	}
 
-	public ScheduledWorkout(long id, Workout workout, LocalDateTime dateTime, double price, int membersCount, Hall hall,
-			Coach coach) {
+	
+
+	public ScheduledWorkout(long id, Workout workout, LocalDateTime dateTime, double price, int membersCount,
+			Long hallId, Long coachId) {
 		super();
 		this.id = id;
 		this.workout = workout;
 		this.dateTime = dateTime;
 		this.price = price;
 		this.membersCount = membersCount;
-		this.hall = hall;
-		this.coach = coach;
+		this.hallId = hallId;
+		this.coachId = coachId;
 	}
+
+	
+
+
+	public Long getHallId() {
+		return hallId;
+	}
+
+
+
+	public void setHallId(Long hallId) {
+		this.hallId = hallId;
+	}
+
+
+
+	public Long getCoachId() {
+		return coachId;
+	}
+
+
+
+	public void setCoachId(Long coachId) {
+		this.coachId = coachId;
+	}
+
+
 
 	public long getId() {
 		return id;
@@ -86,29 +113,5 @@ public class ScheduledWorkout {
 		this.membersCount = membersCount;
 	}
 
-	public Hall getHall() {
-		return hall;
-	}
-
-	public void setHall(Hall hall) {
-		this.hall = hall;
-	}
-
-	public Coach getCoach() {
-		return coach;
-	}
-
-	public void setCoach(Coach coach) {
-		this.coach = coach;
-	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
 
 }
