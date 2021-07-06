@@ -11,13 +11,21 @@
         integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="js/auth.js"></script>
+    <script src="js/global.js"></script>
     <title>Register</title>
 </head>
 
 <body>
     <div class="jumbotron">
-        <button class="btn btn-primary" id="login-btn-redirect">Log In</button>
-    </div>
+        <div class="row">
+          <div class="col-8 offset-1" id="menu-buttons">
+
+          </div>
+          <div class="col-3" id="auth-buttons">
+    
+          </div>
+        </div>
+      </div>
     <div class="container">
         <form id="register-form">
             <div class="form-group">
@@ -61,11 +69,13 @@
         crossorigin="anonymous"></script>
 
     <script>
-        const form = $('#register-form')[0];
 
-        $('#login-btn-redirect').click(function () {
-            location.href = "login.html"
+        $(document).ready(function() {
+            generateAuthButtons();
+            generateMenuButtons();
         })
+
+        const form = $('#register-form')[0];
 
         $('#register-user-btn').click(function (e) {
             e.preventDefault();

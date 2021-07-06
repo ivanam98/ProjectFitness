@@ -12,13 +12,21 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="js/auth.js"></script>
     <script src="js/admin.js"></script>
+    <script src="js/global.js"></script>
     <title>Register Coach</title>
 </head>
 
 <body>
     <div class="jumbotron">
-        <button class="btn btn-primary" id="logout-btn">Log Out</button>
-    </div>
+        <div class="row">
+          <div class="col-8 offset-1" id="menu-buttons">
+
+          </div>
+          <div class="col-3" id="auth-buttons">
+    
+          </div>
+        </div>
+      </div>
     <div class="container">
         <form id="register-form">
             <div class="form-group">
@@ -70,17 +78,16 @@
     <script>
         const form = $('#register-form')[0];
 
-        $('#logout-btn').click(function () {
-            logout()
-            window.location.replace('login.html')
-        })
-
         $(document).ready(function () {
+            restrict();
+            generateAuthButtons();
+            generateMenuButtons();
+            
             $.ajax({
                 type: "GET",
                 url: "https://localhost:8080/fitness-centar",
                 headers: {
-                    "Authorization": "X-Auth-T " + getToken()
+                    "X-Auth-T": getToken()
                 },
                 dataType: 'json',
                 success: function(data, status) {

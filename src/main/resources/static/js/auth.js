@@ -31,6 +31,8 @@ function login(data) {
 
 function logout() {
     localStorage.clear();
+    alert("You are logged out!");
+    location.href = "login.html";
 }
 
 function getLoggedUserId() {
@@ -43,4 +45,38 @@ function getLoggedUserType() {
 
 function getToken() {
     return localStorage.getItem('token');
+}
+
+function redirectToLogin() {
+    location.href = "login.html";
+}
+
+function redirectToRegister() {
+    location.href = "register.html";
+}
+
+function restrict() {
+    const adminPages = [
+        'coaches.html', 'fitness-center.html', 'hall.html', 'halls.html', 'new-fitness-center.html', 'new-hall.html',
+        'new-members-requests.html', 'register-coach.html'];
+
+    const memberPages = ['my-workouts.html', 'done-workouts.html' ];
+
+    const currentUrl = window.location.pathname;
+    const loggedUserType = getLoggedUserType();
+
+    adminPages.forEach(function(page) {
+        if (currentUrl.includes(page) && loggedUserType != 'ADMIN') {
+            alert("You don't have permission for this page!");
+            location.href = 'fitness-centers.html';
+        }
+    })
+
+    memberPages.forEach(function(page) {
+        if (currentUrl.includes(page) && loggedUserType != 'MEMBER') {
+            alert("You don't have permission for this page!");
+            location.href = 'fitness-centers.html';
+        }
+    })
+ 
 }

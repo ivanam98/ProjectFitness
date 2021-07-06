@@ -3,7 +3,7 @@ function deleteFitnessCenter(id) {
         type: "DELETE",
         url: 'http://localhost:8080/fitness-centar/delete/' + id,
         headers: {
-            "Authorization": "X-Auth-T " + getToken()
+            "X-Auth-T": getToken()
         },
         success: function(data, status) {
             alert('success!')
@@ -20,7 +20,7 @@ function createNewFitnessCenter(data) {
         type: "POST",
         url: "http://localhost:8080/fitness-centar/create",
         headers: {
-            "Authorization": "X-Auth-T " + getToken()
+            "X-Auth-T": getToken()
         },
         contentType: "application/json",
         data: JSON.stringify(data),
@@ -39,7 +39,7 @@ function updateFitnessCenter(data) {
         type: "PUT",
         url: "http://localhost:8080/fitness-centar/update",
         headers: {
-            "Authorization": "X-Auth-T " + getToken()
+            "X-Auth-T": getToken()
         },
         contentType: "application/json",
         data: JSON.stringify(data),
@@ -59,7 +59,7 @@ function deleteHall(id) {
         type: "DELETE",
         url: 'http://localhost:8080/hall/delete/' + id,
         headers: {
-            "Authorization": "X-Auth-T " + getToken()
+            "X-Auth-T": getToken()
         },
         success: function(data, status) {
             alert('success!')
@@ -76,7 +76,7 @@ function createNewHall(data) {
         type: "POST",
         url: "http://localhost:8080/hall/create",
         headers: {
-            "Authorization": "X-Auth-T " + getToken()
+            "X-Auth-T": getToken()
         },
         contentType: "application/json",
         data: JSON.stringify(data),
@@ -95,7 +95,7 @@ function updateHall(data) {
         type: "PUT",
         url: "http://localhost:8080/hall/update",
         headers: {
-            "Authorization": "X-Auth-T " + getToken()
+            "X-Auth-T": getToken()
         },
         contentType: "application/json",
         data: JSON.stringify(data),
@@ -114,7 +114,7 @@ function deleteCoach(id) {
         type: "DELETE",
         url: "http://localhost:8080/user/" + id,
         headers: {
-            "Authorization": "X-Auth-T " + getToken()
+            "X-Auth-T": getToken()
         },
         success: function(data, status) {
             alert('Success!');
@@ -131,7 +131,7 @@ function activateMember(id) {
         type: "POST",
         url: "http://localhost:8080/",
         headers: {
-            "Authorization": "X-Auth-T " + getToken()
+            "X-Auth-T": getToken()
         },
         success: function(data, status) {
             alert("Success!");
@@ -148,7 +148,7 @@ function registerCoach(data) {
         type: "POST",
         url: 'http://localhost:8080/user/register-coach',
         headers: {
-            "Authorization": "X-Auth-T " + getToken()
+            "X-Auth-T": getToken()
         },
         data: JSON.stringify(data),
         contentType: "application/json; charset=utf-8",

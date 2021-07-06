@@ -12,16 +12,31 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="js/auth.js"></script>
     <script src="js/admin.js"></script>
+    <script src="js/global.js"></script>
     <title>Halls</title>
 </head>
 
 <body>
     <div class="jumbotron">
-        <button class="btn btn-primary" id="login-btn">Log In</button>
-    </div>
+        <div class="row">
+          <div class="col-8 offset-1" id="menu-buttons">
+
+          </div>
+          <div class="col-3" id="auth-buttons">
+    
+          </div>
+        </div>
+      </div>
     <div class="container">
         <div>
-            <button class="btn btn-primary" id="new-hall-btn">New Hall</button>
+            <div class="row">
+                <div class="col-10">
+                </div>
+                <div class="col-2">
+                    <button class="btn btn-outline-success mb-3" id="new-hall-btn">New Hall</button>
+                </div>
+            </div>
+            
         </div>
         <table class="table table-hover" id="table-fitness-centers">
             <thead>
@@ -43,10 +58,6 @@
         crossorigin="anonymous"></script>
 
     <script>
-        $('#login-btn').click(function () {
-            window.location.replace('login.html')
-        })
-
         $('#new-hall-btn').click(function() {
             location.href = "new-hall.html";
         })
@@ -54,7 +65,10 @@
         const queryParams = new URLSearchParams(queryParamsString);
         const fitnessCenterId = queryParams.get('fitnessCenter');
 
-        $(document).ready(
+        $(document).ready(function() {
+            restrict();
+            generateAuthButtons();
+            generateMenuButtons();
             
             $.ajax({
                 type: "GET",
@@ -101,7 +115,7 @@
                     }
                 }
             })
-        )
+        })
 
 
     </script>
