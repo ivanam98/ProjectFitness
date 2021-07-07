@@ -21,6 +21,7 @@ function login(data) {
             localStorage.setItem('token', data.jwttoken);
             localStorage.setItem('user', data.id);
             localStorage.setItem('userType', data.userType);
+            location.href = 'fitness-centers.html'
         },
         error: function() {
             alert("Bad credentials!");

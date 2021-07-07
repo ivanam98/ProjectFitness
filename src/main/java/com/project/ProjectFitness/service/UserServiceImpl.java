@@ -1,6 +1,7 @@
 package com.project.ProjectFitness.service;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
@@ -9,11 +10,13 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.project.ProjectFitness.entity.Coach;
 import com.project.ProjectFitness.entity.Hall;
 import com.project.ProjectFitness.entity.Member;
 import com.project.ProjectFitness.entity.ScheduledWorkout;
 import com.project.ProjectFitness.entity.User;
 import com.project.ProjectFitness.entity.UserType;
+import com.project.ProjectFitness.entity.dto.CoachDTO;
 import com.project.ProjectFitness.entity.dto.UserDTO;
 import com.project.ProjectFitness.exception.EntityNotFoundException;
 import com.project.ProjectFitness.repository.UserRepository;
@@ -73,9 +76,20 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public User activateUser(User user) {
-		user.setActive(true);
-		return userRepository.save(user);
+	public User getUserById(Long id) {
+		return userRepository.findById(id).orElse(null);
+	}
+
+	@Override
+	public User activateUser(Long id) {
+		User user = getUserById(id);
+		if (user != null) {
+			user.setActive(true);
+			return userRepository.save(user);
+		} else {
+			return user;
+		}
+
 	}
 
 	@Override
@@ -89,14 +103,13 @@ public class UserServiceImpl implements UserService {
 																		// iz liste zakazanih i prebace u listu gotovih
 		while (itr.hasNext()) {
 			ScheduledWorkout sc = itr.next();
-			if (sc.getDateTime().isAfter(LocalDateTime.now())) {
+			if (sc.getDateTime().isBefore(LocalDateTime.now())) {
 				member.getDoneWorkouts().add(sc);
-				scheduledWorkouts.remove(sc);
+				itr.remove();
 			}
 		}
-		List<ScheduledWorkout> doneWorkouts = member.getDoneWorkouts();
 		userRepository.save(member); // Proveriti da li dobro referencira na dobavljenog usera
-		return doneWorkouts;
+		return member.getDoneWorkouts();
 	}
 
 	@Override
@@ -119,8 +132,8 @@ public class UserServiceImpl implements UserService {
 			}
 			userRepository.save(member); // Proveriti da li dobro referencira na dobavljenog usera
 			return scheduledWorkouts;
-		}
-		else return null;
+		} else
+			return null;
 
 	}
 
@@ -138,15 +151,45 @@ public class UserServiceImpl implements UserService {
 
 	}
 
+	@Override
 	public User cancelScheduleWorkout(Long id) {
 		ScheduledWorkout sc = scheduledWorkoutService.getScheduledWorkoutById(id);
-		User u = getLoggedUser();
-		if (u instanceof Member) {
-			Member m = (Member) u;
-			m.getCheckInWorkout().remove(sc);
-			return userRepository.save(m);
+		Member m = (Member) getLoggedUser();
+
+		m.getCheckInWorkout().remove(sc);
+		return userRepository.save(m);
+	}
+
+	@Override
+	public List<UserDTO> getInactiveUsers() {
+		List<User> inactiveUsers = userRepository.findByActiveFalse();
+		List<UserDTO> inactiveDTO = new ArrayList<UserDTO>();
+		for (User user : inactiveUsers) {
+			UserDTO dto = new UserDTO(user);
+			inactiveDTO.add(dto);
 		}
-		return null;
+		return inactiveDTO;
+	}
+	@Override
+	public Coach registerCoach(CoachDTO coachDTO) {
+		Coach coach = new Coach(coachDTO);
+		coach.setUserType(UserType.COACH);
+		coach.setActive(true);
+		coach.setPassword(passwordEncoder.encode(coach.getPassword()));
+		return userRepository.save(coach);
+	}
+	
+	@Override
+	public List<Coach> getCoaches() {
+		List<User> users = userRepository.findAll();
+		List<Coach> coaches = new ArrayList<>();
+		for (User user : users) {
+			if(user.getUserType().equals(UserType.COACH)) {
+				Coach c = (Coach) user;
+				coaches.add(c);
+			}
+		}
+		return coaches;
 	}
 
 }

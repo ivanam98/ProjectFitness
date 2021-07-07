@@ -129,12 +129,12 @@ function deleteCoach(id) {
 function activateMember(id) {
     $.ajax({
         type: "POST",
-        url: "http://localhost:8080/",
+        url: "http://localhost:8080/user/activate/" + id,
         headers: {
             "X-Auth-T": getToken()
         },
         success: function(data, status) {
-            alert("Success!");
+            alert("Success! User activated");
             window.location.reload();
         },
         error: function(data, status) {

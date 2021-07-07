@@ -12,8 +12,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.project.ProjectFitness.entity.Coach;
 import com.project.ProjectFitness.entity.ScheduledWorkout;
 import com.project.ProjectFitness.entity.User;
+import com.project.ProjectFitness.entity.dto.CoachDTO;
 import com.project.ProjectFitness.entity.dto.UserDTO;
 import com.project.ProjectFitness.service.UserServiceImpl;
 
@@ -31,6 +33,15 @@ public class UserController {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
 		return new ResponseEntity<>(user, HttpStatus.CREATED);
+	}
+	
+	@PostMapping(value = "/register-coach", consumes = "application/json")
+	public ResponseEntity<Coach> registerCoach(@RequestBody CoachDTO coachDTO) {
+		Coach coach = userService.registerCoach(coachDTO);
+		if(coach == null) {
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}
+		return new ResponseEntity<>(coach, HttpStatus.CREATED);
 	}
 	
 	@GetMapping(value = "/done-workouts")
@@ -69,6 +80,30 @@ public class UserController {
 		UserDTO uDto = new UserDTO(u);
 		return new ResponseEntity<>(uDto, HttpStatus.OK);
 	}
+	
+	@GetMapping(value = "/inactive-users")
+	public ResponseEntity<List<UserDTO>> getInactiveUsers() {
+		List<UserDTO> uDtos = userService.getInactiveUsers();
+		return new ResponseEntity<>(uDtos, HttpStatus.OK);
+	}
+	
+	@PostMapping(value = "/activate/{id}")
+	public ResponseEntity<UserDTO> activateUser(@PathVariable("id") Long id) {
+		User user = userService.activateUser(id);
+		if(user == null) {
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}
+		UserDTO dto = new UserDTO(user);
+		return new ResponseEntity<>(dto, HttpStatus.OK);
+	}
+	
+	@GetMapping(value = "/coaches")
+	public ResponseEntity<List<Coach>> getCoaches() {
+		List<Coach> coach = userService.getCoaches();
+		return new ResponseEntity<>(coach, HttpStatus.OK);
+	}
+	
+	
 	
 	
 }

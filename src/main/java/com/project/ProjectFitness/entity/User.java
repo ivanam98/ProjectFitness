@@ -13,6 +13,7 @@ import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.Table;
 
+import com.project.ProjectFitness.entity.dto.CoachDTO;
 import com.project.ProjectFitness.entity.dto.UserDTO;
 
 @Entity
@@ -71,6 +72,17 @@ public class User{
 		this.email = userDTO.getEmail();
 		this.dateOfBirth = userDTO.getDateOfBirth();
 	}
+	
+	public User(CoachDTO coachDTO) {
+		this.username = coachDTO.getUsername();
+		this.password = coachDTO.getPassword();
+		this.firstName =  coachDTO.getFirstName();
+		this.lastName = coachDTO.getLastName();
+		this.phoneNumber = coachDTO.getPhoneNumber();
+		this.email = coachDTO.getEmail();
+		this.dateOfBirth = coachDTO.getDateOfBirth();
+	}
+	
 
 	public long getId() {
 		return id;

@@ -8,6 +8,8 @@ import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
 
+import com.project.ProjectFitness.entity.dto.CoachDTO;
+
 @Entity
 @DiscriminatorValue("coach_user")
 public class Coach extends User {
@@ -40,6 +42,13 @@ public class Coach extends User {
 		super(id, username, password, firstName, lastName, phoneNumber, email, dateOfBirth, userType, active);
 		this.workouts = workouts;
 		this.fitnessCentarId = fitnessCentarId;
+	}
+
+
+	public Coach(CoachDTO coachDTO) {
+		super(coachDTO);
+		setFitnessCentarId(coachDTO.getFitnessCentarId());
+		
 	}
 
 
