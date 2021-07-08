@@ -19,6 +19,7 @@ import com.project.ProjectFitness.entity.UserType;
 import com.project.ProjectFitness.entity.dto.CoachDTO;
 import com.project.ProjectFitness.entity.dto.UserDTO;
 import com.project.ProjectFitness.exception.EntityNotFoundException;
+import com.project.ProjectFitness.repository.ScheduledWorkoutRepository;
 import com.project.ProjectFitness.repository.UserRepository;
 
 @Service
@@ -32,6 +33,9 @@ public class UserServiceImpl implements UserService {
 
 	@Autowired
 	private HallServiceImpl hallService;
+	
+	@Autowired
+	ScheduledWorkoutRepository scheduledWorkoutRepo;
 
 	@Autowired
 	private PasswordEncoder passwordEncoder;
@@ -145,6 +149,8 @@ public class UserServiceImpl implements UserService {
 
 		if (sc.getMembersCount() < hall.getCapacity()) {
 			m.getCheckInWorkout().add(sc);
+			sc.setMembersCount(sc.getMembersCount() + 1);
+			scheduledWorkoutRepo.save(sc);
 			return userRepository.save(m);
 		}
 		return null;
@@ -155,7 +161,8 @@ public class UserServiceImpl implements UserService {
 	public User cancelScheduleWorkout(Long id) {
 		ScheduledWorkout sc = scheduledWorkoutService.getScheduledWorkoutById(id);
 		Member m = (Member) getLoggedUser();
-
+		sc.setMembersCount(sc.getMembersCount() - 1);
+		scheduledWorkoutRepo.save(sc);
 		m.getCheckInWorkout().remove(sc);
 		return userRepository.save(m);
 	}

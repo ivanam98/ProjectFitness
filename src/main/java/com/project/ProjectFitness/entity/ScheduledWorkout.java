@@ -10,9 +10,11 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import com.project.ProjectFitness.entity.dto.ScheduledWorkoutDTO;
+
 @Entity
 @Table(name="scheduledWorkout")
-public class ScheduledWorkout {
+public class ScheduledWorkout implements Comparable<ScheduledWorkout>{
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -47,6 +49,15 @@ public class ScheduledWorkout {
 	}
 
 	
+
+
+	public ScheduledWorkout(ScheduledWorkoutDTO dto) {
+		this.dateTime = dto.getDateTime();
+		this.price = dto.getPrice();
+		this.membersCount = dto.getMembersCount();
+		this.hallId = dto.getHallId();
+	}
+
 
 
 	public Long getHallId() {
@@ -112,6 +123,16 @@ public class ScheduledWorkout {
 	public void setMembersCount(int membersCount) {
 		this.membersCount = membersCount;
 	}
+
+
+
+	@Override
+	public int compareTo(ScheduledWorkout o) {
+		return getDateTime().compareTo(o.getDateTime());
+	}
+	
+	
+	
 
 
 }

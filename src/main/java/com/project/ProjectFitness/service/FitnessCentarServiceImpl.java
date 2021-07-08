@@ -28,8 +28,7 @@ public class FitnessCentarServiceImpl implements FitnessCentarService{
 
 	@Override
 	public List<FitnessCentar> getAllFitnesCentar() {
-		
-		return fitnessCentarRepo.findAll();
+		return fitnessCentarRepo.findByDeletedFalse();
 	}
 	@Override
 	public FitnessCentar deleteFitnessCentar(Long id) {
