@@ -25,4 +25,5 @@ public interface UserService {
 	public User getUserById(Long id);
 	public Coach registerCoach(CoachDTO coachDTO);
 	public List<Coach> getCoaches();
+	public User deactivateUser(Long id);
 }

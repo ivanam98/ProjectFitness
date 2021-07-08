@@ -181,7 +181,7 @@ public class UserServiceImpl implements UserService {
 	
 	@Override
 	public List<Coach> getCoaches() {
-		List<User> users = userRepository.findAll();
+		List<User> users = userRepository.findByActiveTrue();
 		List<Coach> coaches = new ArrayList<>();
 		for (User user : users) {
 			if(user.getUserType().equals(UserType.COACH)) {
@@ -190,6 +190,18 @@ public class UserServiceImpl implements UserService {
 			}
 		}
 		return coaches;
+	}
+
+	@Override
+	public User deactivateUser(Long id) {
+		User user = getUserById(id);
+		if (user != null) {
+			user.setActive(false);
+			return userRepository.save(user);
+		} else {
+			return user;
+		}
+
 	}
 
 }

@@ -2,7 +2,6 @@ package com.project.ProjectFitness.entity.dto;
 
 import java.time.LocalDate;
 
-import com.project.ProjectFitness.entity.FitnessCentar;
 import com.project.ProjectFitness.entity.UserType;
 
 public class CoachDTO {
@@ -16,11 +15,10 @@ public class CoachDTO {
 	protected String phoneNumber;
 	protected LocalDate dateOfBirth;
 	protected UserType userType;
-	protected FitnessCentar fitnessCentar;
 	protected Long fitnessCentarId;
 
 	public CoachDTO(Long id, String firstName, String lastName, String password, String username, String email,
-			String phoneNumber, LocalDate dateOfBirth, UserType userType, FitnessCentar fitnessCentar,
+			String phoneNumber, LocalDate dateOfBirth, UserType userType,
 			Long fitnessCentarId) {
 		super();
 		this.id = id;
@@ -32,7 +30,6 @@ public class CoachDTO {
 		this.phoneNumber = phoneNumber;
 		this.dateOfBirth = dateOfBirth;
 		this.userType = userType;
-		this.fitnessCentar = fitnessCentar;
 		this.fitnessCentarId = fitnessCentarId;
 	}
 
@@ -112,13 +109,6 @@ public class CoachDTO {
 		this.userType = userType;
 	}
 
-	public FitnessCentar getFitnessCentar() {
-		return fitnessCentar;
-	}
-
-	public void setFitnessCentar(FitnessCentar fitnessCentar) {
-		this.fitnessCentar = fitnessCentar;
-	}
 
 	public Long getFitnessCentarId() {
 		return fitnessCentarId;

@@ -6,7 +6,7 @@ function checkInWorkout(workoutId) {
             "X-Auth-T": getToken()
         },
         success: function(data, status) {
-            alert('success!')
+            alert('Successfuly checked in!')
         },
         error: function() {
             alert("error!");
@@ -22,7 +22,7 @@ function cancelScheduledWorkout(workoutId) {
             "X-Auth-T": getToken()
         },
         success: function(data, status) {
-            alert('success!');
+            alert('Workout canceled!');
         },
         error: function() {
             alert('error!')

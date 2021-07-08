@@ -6,7 +6,7 @@ function deleteFitnessCenter(id) {
             "X-Auth-T": getToken()
         },
         success: function(data, status) {
-            alert('success!')
+            alert('Fitness center deleted!')
             window.location.reload();
         },
         error: function() {
@@ -25,7 +25,7 @@ function createNewFitnessCenter(data) {
         contentType: "application/json",
         data: JSON.stringify(data),
         success: function (data, status) {
-            alert("New Fitness Center created!");
+            alert("New Fitness center created!");
             location.href = 'fitness-centers.html';
         },
         error: function() {
@@ -62,7 +62,7 @@ function deleteHall(id) {
             "X-Auth-T": getToken()
         },
         success: function(data, status) {
-            alert('success!')
+            alert('Hall deleted!')
             window.location.reload();
         },
         error: function() {
@@ -100,7 +100,7 @@ function updateHall(data) {
         contentType: "application/json",
         data: JSON.stringify(data),
         success: function() {
-            alert('Hall updated!');
+            alert('Hall updated succesfully!');
             window.location.reload();
         },
         error: function() {
@@ -111,13 +111,13 @@ function updateHall(data) {
 
 function deleteCoach(id) {
     $.ajax({
-        type: "DELETE",
-        url: "http://localhost:8080/user/" + id,
+        type: "POST",
+        url: "http://localhost:8080/user/deactivate/" + id,
         headers: {
             "X-Auth-T": getToken()
         },
         success: function(data, status) {
-            alert('Success!');
+            alert('Coach deactivated!');
             window.location.reload();
         },
         error: function(data, status) {
@@ -151,12 +151,12 @@ function registerCoach(data) {
             "X-Auth-T": getToken()
         },
         data: JSON.stringify(data),
-        contentType: "application/json; charset=utf-8",
+        contentType: "application/json",
         success: function(data, status) {
-            console.log('success!');
+            alert('Coach registered succesfully!');
         },
         error: function(data, status) {
-            console.log('error!')
+            console.log('Error!')
         }
     });
 }

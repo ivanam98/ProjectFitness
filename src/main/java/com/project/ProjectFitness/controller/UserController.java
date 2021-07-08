@@ -97,6 +97,16 @@ public class UserController {
 		return new ResponseEntity<>(dto, HttpStatus.OK);
 	}
 	
+	@PostMapping(value = "/deactivate/{id}")
+	public ResponseEntity<UserDTO> deactivateUser(@PathVariable("id") Long id) {
+		User user = userService.deactivateUser(id);
+		if(user == null) {
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}
+		UserDTO dto = new UserDTO(user);
+		return new ResponseEntity<>(dto, HttpStatus.OK);
+	}
+	
 	@GetMapping(value = "/coaches")
 	public ResponseEntity<List<Coach>> getCoaches() {
 		List<Coach> coach = userService.getCoaches();
