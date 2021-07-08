@@ -62,6 +62,9 @@
             $.ajax({
                 type: "GET",
                 url: "http://localhost:8080/user/coaches",
+                headers: {
+                    "X-Auth-T": getToken()
+                },
                 dataType: "json",
                 success: function (data, status) {
                     let tableRows = ''
@@ -90,7 +93,7 @@
                     })
 
                     const loggedUserType = getLoggedUserType();
-                    if (loggedUserType == 'admin_user') {
+                    if (loggedUserType == 'ADMIN') {
                         $('.delete-btn').attr('hidden', false);
                     }
                 }
