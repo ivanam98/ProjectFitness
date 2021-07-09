@@ -28,6 +28,15 @@
         </div>
       </div>
     <div class="container">
+        <div>
+            <div class="row">
+                <div class="col-10">
+                </div>
+                <div class="col-2">
+                    <button class="btn btn-outline-success mb-3" id="new-schWorkout-btn" hidden>Schedule New Workout</button>
+                </div>
+            </div>
+        </div>
         <table class="table table-hover" id="table-fitness-centers">
             <thead>
                 <tr>
@@ -52,7 +61,8 @@
     <script>
         const queryParamsString = window.location.search;
         const queryParams = new URLSearchParams(queryParamsString);
-        const workoutId = queryParams.get('id');
+        const workoutId = queryParams.get('workoutId');
+        const fitnessCenterId = queryParams.get('fitnessCenterId');
 
         $(document).ready(function() {
             restrict();
@@ -95,10 +105,15 @@
                         const rowId = $(this).attr('row-id');
                         checkInWorkout(rowId);
                     })
-                    
+
+                    $('#new-schWorkout-btn').click(function() {
+                        location.href = 'schedule-new-workout.html?fitnessCenterId=' + fitnessCenterId + "&workoutId=" + workoutId;
+                    })
                     
                     if (loggedUserType == 'MEMBER') {
                         $('.check-in').attr('hidden', false);
+                    } else if (loggedUserType == "COACH") {
+                        $('#new-schWorkout-btn').attr('hidden', false);
                     }
                 }
             })
