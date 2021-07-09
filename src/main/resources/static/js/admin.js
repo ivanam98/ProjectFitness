@@ -155,6 +155,7 @@ function registerCoach(data) {
         contentType: "application/json",
         success: function(data, status) {
             alert('Coach registered succesfully!');
+            location.href = "coaches.html"
         },
         error: function(data, status) {
             console.log('Error!')

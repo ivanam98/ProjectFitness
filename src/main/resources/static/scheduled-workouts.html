@@ -44,7 +44,7 @@
                     <th scope="col">Workout</th>
                     <th scope="col">Time</th>
                     <th scope="col">Price</th>
-                    <th scope="col">Capacity</th>
+                    <th scope="col">Members checked-in</th>
                     <th scope="col">Actions</th>
                 </tr>
             </thead>
@@ -83,7 +83,7 @@
                             return;
                         }
                         let tableRow = '';
-                        tableRow += '<tr class="clickable-row" row-id="' + row.id + '">';
+                        tableRow += '<tr row-id="' + row.id + '">';
                         tableRow += '<td>' + row.id + '</td>'
                         tableRow += '<td>' + row.workout?.name + '</td>'
                         tableRow += '<td>' + new Date(row.dateTime).toLocaleString() + '</td>'
@@ -95,11 +95,7 @@
                     });
                     $('#table-content').append(tableRows);
 
-                    $(".clickable-row").click(function () {
-                        const rowId = $(this).attr('row-id');
-                        location.href = 'scheduled-workouts.html?id=' + rowId;
-                    })
-
+                  
                     $('#check-in-btn').click(function(e) {
                     	e.stopPropagation();
                         const rowId = $(this).attr('row-id');
