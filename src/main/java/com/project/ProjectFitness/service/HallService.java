@@ -10,7 +10,6 @@ public interface HallService {
 	public Hall saveHall(HallDTO hallDto);
 	public List<Hall> getAllHalls();
 	public Hall deleteHall(Long id);
-	public List<Hall> getHallForFitnessCentar(Long id);
 	public Hall updateHall(HallDTO hallDto);
 	
 

@@ -62,11 +62,6 @@ public class HallServiceImpl implements HallService{
 		return hall;
 	}
 
-	@Override
-	public List<Hall> getHallForFitnessCentar(Long id) {
-		// TODO Auto-generated method stub
-		return null;
-	}
 	
 	
 

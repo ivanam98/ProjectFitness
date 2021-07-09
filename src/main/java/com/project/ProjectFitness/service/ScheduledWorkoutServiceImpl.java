@@ -1,15 +1,18 @@
 package com.project.ProjectFitness.service;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.project.ProjectFitness.entity.FitnessCentar;
+import com.project.ProjectFitness.entity.Hall;
 import com.project.ProjectFitness.entity.ScheduledWorkout;
 import com.project.ProjectFitness.entity.Workout;
 import com.project.ProjectFitness.entity.dto.ScheduledWorkoutDTO;
+import com.project.ProjectFitness.repository.FitnessCentarRepository;
+import com.project.ProjectFitness.repository.HallRepository;
 import com.project.ProjectFitness.repository.ScheduledWorkoutRepository;
 
 @Service
@@ -24,6 +27,18 @@ public class ScheduledWorkoutServiceImpl implements ScheduledWorkoutService {
 	@Autowired
 	private UserServiceImpl userService;
 
+	@Autowired
+	private HallServiceImpl hallService;
+	
+	@Autowired
+	private HallRepository hallRepo;
+	
+	@Autowired
+	private FitnessCentarServiceImpl fitnessCentarService;
+	
+	@Autowired
+	private FitnessCentarRepository fitnessCentarRepo;
+	
 	@Override
 	public List<ScheduledWorkout> getAllScheduledWorkouts() {
 		return scheduledWorkoutRepo.findAll();
@@ -53,8 +68,14 @@ public class ScheduledWorkoutServiceImpl implements ScheduledWorkoutService {
 		ScheduledWorkout sw = new ScheduledWorkout(dto);
 		sw.setWorkout(workout);
 		sw.setCoachId(userService.getLoggedUser().getId());
-
-		return scheduledWorkoutRepo.save(sw);
+		sw = scheduledWorkoutRepo.save(sw);
+		Hall hall = hallService.getHallById(dto.getHallId());
+		hall.getScheduledWorkouts().add(sw);
+		hallRepo.save(hall);
+		FitnessCentar fc = fitnessCentarService.getFitnessCentarById(hall.getFitnessCentarId());
+		fc.getScheduledWorkouts().add(sw);
+		fitnessCentarRepo.save(fc);
+		return sw;
 	}
 
 }
