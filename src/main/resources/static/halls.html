@@ -58,12 +58,13 @@
         crossorigin="anonymous"></script>
 
     <script>
-        $('#new-hall-btn').click(function() {
-            location.href = "new-hall.html";
-        })
         const queryParamsString = window.location.search;
         const queryParams = new URLSearchParams(queryParamsString);
         const fitnessCenterId = queryParams.get('fitnessCenter');
+
+        $('#new-hall-btn').click(function() {
+            location.href = "new-hall.html?fitnessCenter=" + fitnessCenterId;
+        })
 
         $(document).ready(function() {
             restrict();
@@ -72,7 +73,7 @@
             
             $.ajax({
                 type: "GET",
-                url: "https://jsonplaceholder.typicode.com/posts/" + fitnessCenterId,
+                url: "http://localhost:8080/fitness-centar/" + fitnessCenterId + "/halls",
                 dataType: "json",
                 success: function (data, status) {
                     let tableRows = ''
@@ -84,7 +85,7 @@
                         tableRow += '<td>' + row.capacity + '</td>';
                         tableRow += '<td>';
                         tableRow += '<button class="btn btn-outline-primary edit-btn" row-id="' + row.id + '" hidden>Edit</button>';
-                        tableRow += '<button class="btn btn-outline-danger delete-btn" row-id="' + row.id + '" hidden>Delete</button>';
+                        tableRow += '<button class="btn btn-outline-danger delete-btn ml-1" row-id="' + row.id + '" hidden>Delete</button>';
                         tableRow += '</td>';
                         tableRow += '</tr>'
                         tableRows += tableRow;
