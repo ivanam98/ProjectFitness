@@ -1,10 +1,7 @@
 package com.project.ProjectFitness.entity.dto;
 
-import java.util.List;
-
 import com.project.ProjectFitness.entity.FitnessCentar;
 import com.project.ProjectFitness.entity.Hall;
-import com.project.ProjectFitness.entity.ScheduledWorkout;
 
 public class HallDTO {
 
@@ -18,18 +15,17 @@ public class HallDTO {
 
 	private FitnessCentar fitnessCentar;
 
-	private List<ScheduledWorkout> scheduledWorkouts;
+	//private List<ScheduledWorkout> scheduledWorkouts;
 
 	private boolean deleted;
 
 	public HallDTO(long id, long capacity, String name, FitnessCentar fitnessCentar,
-			List<ScheduledWorkout> scheduledWorkouts, boolean deleted) {
+		boolean deleted) {
 		super();
 		this.id = id;
 		this.capacity = capacity;
 		this.name = name;
 		this.fitnessCentar = fitnessCentar;
-		this.scheduledWorkouts = scheduledWorkouts;
 		this.deleted = deleted;
 	}
 
@@ -43,7 +39,6 @@ public class HallDTO {
 		this.capacity = hall.getCapacity();
 		this.name = hall.getName();
 		this.fitnessCentarId = hall.getFitnessCentarId();
-		this.scheduledWorkouts = hall.getScheduledWorkouts();
 		this.deleted = hall.isDeleted();
 	}
 
@@ -77,14 +72,6 @@ public class HallDTO {
 
 	public void setFitnessCentar(FitnessCentar fitnessCentar) {
 		this.fitnessCentar = fitnessCentar;
-	}
-
-	public List<ScheduledWorkout> getScheduledWorkouts() {
-		return scheduledWorkouts;
-	}
-
-	public void setScheduledWorkouts(List<ScheduledWorkout> scheduledWorkouts) {
-		this.scheduledWorkouts = scheduledWorkouts;
 	}
 
 	public boolean isDeleted() {

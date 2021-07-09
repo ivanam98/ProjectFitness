@@ -60,7 +60,6 @@ public class Hall {
 		this.capacity = hallDto.getCapacity();
 		this.name = hallDto.getName();
 		this.fitnessCentarId = hallDto.getFitnessCentarId();
-		this.scheduledWorkouts = hallDto.getScheduledWorkouts();
 	}
 
 	public Long getFitnessCentarId() {
