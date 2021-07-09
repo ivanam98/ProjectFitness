@@ -73,7 +73,7 @@
 
             $.ajax({
                 type: "GET",
-                url: "http://localhost:8080/scheduled-workout/fitness-centar" + fitnessCenterId + "/workout/" + workoutId,
+                url: "http://localhost:8080/scheduled-workout/fitness-centar/" + fitnessCenterId + "/workout/" + workoutId,
                 dataType: "json",
                 success: function (data, status) {
                     let tableRows = ''
@@ -126,7 +126,7 @@
             }
             $.ajax({
                 type: "GET",
-                url: "http://localhost:8080/scheduled-workout/fitness-centar" + fitnessCenterId + "/workout/" + workoutId + "/" + sortType,
+                url: "http://localhost:8080/scheduled-workout/fitness-centar/" + fitnessCenterId + "/workout/" + workoutId + "/" + sortType,
                 dataType: "json",
                 success: function(data, status) {
                     $('#table-content').empty();
@@ -145,7 +145,7 @@
                         tableRow += '<td>' + new Date(row.dateTime).toLocaleString() + '</td>'
                         tableRow += '<td>' + row.price + '</td>'
                         tableRow += '<td>' + row.membersCount + '</td>'
-                        tableRow += '<td><button id="check-in-btn" row-id="' + row.id + '" class="btn btn-primary check-in" hidden>Check In</button></td>'
+                        tableRow += '<td><button id="check-in-btn" row-id="' + row.id + '" class="btn btn-primary check-in">Check In</button></td>'
                         tableRow += '</tr>'
                         tableRows += tableRow;
                     });
