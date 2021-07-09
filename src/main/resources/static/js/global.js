@@ -7,7 +7,6 @@ function generateMenuButtons() {
         
     } else if (loggedUserType == 'ADMIN') {
         menuButtons += '<button class="btn btn-info ml-5" id="coaches-redirect" onclick="redirectToCoachesPage()">Coaches</button>';
-        menuButtons += '<button class="btn btn-info ml-1" id="halls-redirect" onclick="redirectToHallsPage()">Halls</button>';
         menuButtons += '<button class="btn btn-info ml-1" id="requests-redirect" onclick="redirectToNewMembersRequestsPage()">Requests</button>';
         menuButtons += '<button class="btn btn-info ml-1" id="register-coach-redirect" onclick="redirectToRegisterCoachPage()">Register Coach</button>';
     

@@ -48,6 +48,10 @@
 
     <script>
 
+        const queryParamsString = window.location.search;
+        const queryParams = new URLSearchParams(queryParamsString);
+        const fitnessCenterId = queryParams.get('fitnessCenter');
+
         $(document).ready(function() {
             restrict();
             generateAuthButtons();
@@ -62,6 +66,7 @@
                 const data = {
                     name: $('#name-input').val(),
                     capacity: parseInt($('#capacity-input').val()),
+                    fitnessCentarId: parseInt(fitnessCenterId)
                 }
                 createNewHall(data);
             }

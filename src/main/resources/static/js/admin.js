@@ -92,14 +92,15 @@ function createNewHall(data) {
 
 function updateHall(data) {
     $.ajax({
-        type: "PUT",
+        type: "POST",
         url: "http://localhost:8080/hall/update",
         headers: {
-            "X-Auth-T": getToken()
+            "X-Auth-T": getToken(),
         },
         contentType: "application/json",
+        dataType: 'json',
         data: JSON.stringify(data),
-        success: function() {
+        success: function(data, status) {
             alert('Hall updated succesfully!');
             window.location.reload();
         },

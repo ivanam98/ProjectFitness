@@ -66,7 +66,12 @@
                 success: function (data, status) {
                     let tableRows = ''
                     const loggedUserType = getLoggedUserType();
+                    const nowDate = new Date();
                     data.forEach(function (row) {
+                        const dateObj = new Date(row.dateTime);
+                        if (dateObj < nowDate) {
+                            return;
+                        }
                         let tableRow = '';
                         tableRow += '<tr class="clickable-row" row-id="' + row.id + '">';
                         tableRow += '<td>' + row.id + '</td>'
@@ -86,7 +91,7 @@
                     })
 
                     $('#check-in-btn').click(function(e) {
-                    	e.preventDefault();
+                    	e.stopPropagation();
                         const rowId = $(this).attr('row-id');
                         checkInWorkout(rowId);
                     })

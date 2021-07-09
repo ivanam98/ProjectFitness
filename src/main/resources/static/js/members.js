@@ -6,10 +6,11 @@ function checkInWorkout(workoutId) {
             "X-Auth-T": getToken()
         },
         success: function(data, status) {
-            alert('Successfuly checked in!')
+            alert('Successfuly checked in!');
+            location.href = 'my-workouts.html';
         },
         error: function() {
-            alert("error!");
+            alert("You are already checked in for this workout!");
         },
     })
 }
@@ -23,6 +24,7 @@ function cancelScheduledWorkout(workoutId) {
         },
         success: function(data, status) {
             alert('Workout canceled!');
+            window.location.reload();
         },
         error: function() {
             alert('error!')
