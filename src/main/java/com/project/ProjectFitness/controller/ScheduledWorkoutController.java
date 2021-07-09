@@ -45,14 +45,15 @@ public class ScheduledWorkoutController {
 	@GetMapping(value = "/workout/{id}/ascending")
 	public ResponseEntity<List<ScheduledWorkout>> getScheduledWorkoutsForWorkoutAscending(@PathVariable("id") Long id) {
 		List<ScheduledWorkout> scws = scheduledWorkoutService.getAllScheduledWorkoutsByWorkoutId(id);
-		Collections.sort(scws);		return new ResponseEntity<>(scws,HttpStatus.OK);
+		Collections.sort(scws);		
+		return new ResponseEntity<>(scws,HttpStatus.OK);
 	}
 	
 	@GetMapping(value = "/workout/{id}/descending")
 	public ResponseEntity<List<ScheduledWorkout>> getScheduledWorkoutsForWorkoutDescending(@PathVariable("id") Long id) {
 		List<ScheduledWorkout> scws = scheduledWorkoutService.getAllScheduledWorkoutsByWorkoutId(id);
 		Collections.sort(scws);
-		 Collections.reverse(scws);
+		Collections.reverse(scws);
 		return new ResponseEntity<>(scws,HttpStatus.OK);
 	}
 }

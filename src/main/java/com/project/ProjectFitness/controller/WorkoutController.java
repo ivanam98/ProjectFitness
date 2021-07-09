@@ -43,7 +43,6 @@ public class WorkoutController {
 		return new ResponseEntity<>(workouts,HttpStatus.OK);
 	}
 	
-	
 	@GetMapping("/search-description/{description}")
 	public ResponseEntity<List<Workout>>searchDescription(@PathVariable("description") String description) {
 		List<Workout> workouts = workoutService.getAllWorkoutsDescirption(description);
