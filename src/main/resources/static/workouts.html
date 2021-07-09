@@ -51,7 +51,7 @@
 
         const queryParamsString = window.location.search;
         const queryParams = new URLSearchParams(queryParamsString);
-        const fitnessCenterId = queryParams.get('id');
+        const fitnessCenterId = queryParams.get('fitnessCenterId');
 
         $(document).ready(function() {
             restrict();
@@ -79,7 +79,7 @@
 
                     $(".clickable-row").click(function () {
                         const rowId = $(this).attr('row-id');
-                        location.href = 'scheduled-workouts.html?id=' + rowId;
+                        location.href = 'scheduled-workouts.html?workoutId=' + rowId + '&fitnessCenterId=' + fitnessCenterId;
                     })
                 }
             })

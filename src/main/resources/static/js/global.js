@@ -11,6 +11,7 @@ function generateMenuButtons() {
         menuButtons += '<button class="btn btn-info ml-1" id="register-coach-redirect" onclick="redirectToRegisterCoachPage()">Register Coach</button>';
     
     } else if (loggedUserType == 'MEMBER') {
+        menuButtons += '<button class="btn btn-outline-warning ml-1" id="my-profile-redirect" onclick="redirectToMyProfile()">My Profile</button>';
         menuButtons += '<button class="btn btn-outline-warning ml-1" id="my-workouts-redirect" onclick="redirectToMyWorkouts()">My Workouts</button>';
         menuButtons += '<button class="btn btn-outline-warning ml-1" id="done-workouts-redirect" onclick="redirectToDoneWorkouts()">Done Workouts</button>';
     
@@ -69,4 +70,8 @@ function redirectToNewMembersRequestsPage() {
 
 function redirectToRegisterCoachPage() {
     location.href = 'register-coach.html';
+}
+
+function redirectToMyProfile() {
+    location.href = 'my-profile.html';
 }

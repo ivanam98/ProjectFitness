@@ -62,7 +62,7 @@ function restrict() {
         'coaches.html', 'fitness-center.html', 'hall.html', 'halls.html', 'new-fitness-center.html', 'new-hall.html',
         'new-members-requests.html', 'register-coach.html'];
 
-    const memberPages = ['my-workouts.html', 'done-workouts.html' ];
+    const memberPages = ['my-workouts.html', 'done-workouts.html', 'my-profile.html' ];
 
     const currentUrl = window.location.pathname;
     const loggedUserType = getLoggedUserType();

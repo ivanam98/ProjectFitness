@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css"
+        integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/admin.js"></script>
+    <script src="js/global.js"></script>
+    <script src="js/coach.js"></script>
+    <title>Schedule New Workout</title>
+</head>
+
+<body>
+    <div class="jumbotron">
+        <div class="row">
+          <div class="col-8 offset-1" id="menu-buttons">
+
+          </div>
+          <div class="col-3" id="auth-buttons">
+    
+          </div>
+        </div>
+      </div>
+    <div class="container">
+        <form id="new-workout-form">
+            <div class="form-group">
+                <label>Price</label>
+                <input type="number" class="form-control" id="price-input" placeholder="Enter price" min="0" required />
+            </div>
+            <div class="form-group">
+                <label>Date</label>
+                <input type="date" class="form-control" id="date-input" required />
+            </div>
+            <div class="form-group">
+                <label>Time</label>
+                <input type="time" class="form-control" id="time-input" required />
+            </div>
+            <div class="form-group">
+                <label>Hall</label>
+                <select class="form-control" id="hall-select">
+
+                </select>
+            </div>
+            <button class="btn btn-primary" id="create-btn">Create</button>
+        </form>
+
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-Piv4xVNRyMGpqkS2by6br4gNJ7DXjqk09RmUpJ8jgGtD7zP9yug3goQfGII0yAns"
+        crossorigin="anonymous"></script>
+
+    <script>
+
+        const queryParamsString = window.location.search;
+        const queryParams = new URLSearchParams(queryParamsString);
+        const fitnessCenterId = queryParams.get('fitnessCenterId');
+        const workoutId = queryParams.get('workoutId');
+
+        $(document).ready(function() {
+            restrict();
+            generateAuthButtons();
+            generateMenuButtons();
+
+            $.ajax({
+                type: "GET",
+                url: "http://localhost:8080/fitness-centar/" + fitnessCenterId + "/halls",
+                headers: {
+                    "X-Auth-T": getToken()
+                },
+                dataType: 'json',
+                success: function(data, status) {
+                    let options = '';
+                    data.forEach(function (hall) {
+                        let option = '<option value="' + hall.id + '">';
+                        option += hall.name;
+                        option += '</option>';
+                        options += option;
+                    })
+                    $('#hall-select').append(options);
+                }
+            })
+
+        })
+
+        $('#create-btn').click(function(e) {
+            e.preventDefault();
+            const form = $('#new-workout-form')[0];
+            const isFormValid = form.checkValidity();
+            if (isFormValid) {
+                const timeInput = $('#time-input').val();
+                const dateInput = $('#date-input').val();
+                const dateTime = dateInput + "T" + timeInput;
+                const data = {
+                    price: parseFloat($('#price-input').val()),
+                    dateTime: dateTime,
+                    hallId: parseInt($('#hall-select').find(':selected').val()),
+                    workoutId: parseInt(workoutId)
+                }
+                createNewScheduledWorkout(data, fitnessCenterId);
+            } else {
+                alert("Please fill the form first");
+            }
+        })
+
+
+    </script>
+</body>
+
+</html>

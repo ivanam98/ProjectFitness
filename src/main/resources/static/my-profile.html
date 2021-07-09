@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css"
+        integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/admin.js"></script>
+    <script src="js/global.js"></script>
+    <title>My Profile</title>
+</head>
+
+<body>
+    <div class="jumbotron">
+        <div class="row">
+            <div class="col-8 offset-1" id="menu-buttons">
+
+            </div>
+            <div class="col-3" id="auth-buttons">
+
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <form id="new-hall-form">
+            <div class="form-group">
+                <label>Username</label>
+                <input type="text" class="form-control" id="username-input" disabled />
+            </div>
+            <div class="form-group">
+                <label>First name</label>
+                <input type="text" class="form-control" id="first-name-input" disabled />
+            </div>
+            <div class="form-group">
+                <label>Last name</label>
+                <input type="text" class="form-control" id="last-name-input" disabled />
+            </div>
+            <div class="form-group">
+                <label>Phone</label>
+                <input type="text" class="form-control" id="phone-input" disabled />
+            </div>
+            <div class="form-group">
+                <label>Email</label>
+                <input type="email" class="form-control" id="email-input" disabled />
+            </div>
+
+            <div class="form-group">
+                <label>Date of Birth</label>
+                <input type="text" class="form-control" id="dob-input" disabled />
+            </div>
+
+        </form>
+
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-Piv4xVNRyMGpqkS2by6br4gNJ7DXjqk09RmUpJ8jgGtD7zP9yug3goQfGII0yAns"
+        crossorigin="anonymous"></script>
+
+    <script>
+        $(document).ready(function() {
+            restrict();
+            generateAuthButtons();
+            generateMenuButtons();
+
+            $.ajax({
+                type: "GET",
+                url: "http://localhost:8080/user/me",
+                headers: {
+                    "X-Auth-T": getToken()
+                },
+                dataType: "json",
+                success: function (data, status) {
+                    $('#username-input').val(data.username);
+                    $('#first-name-input').val(data.firstName);
+                    $('#last-name-input').val(data.lastName);
+                    $('#phone-input').val(data.phoneNumber);
+                    $('#email-input').val(data.email);
+                    const dateObj = new Date(data.dateOfBirth);
+                    $('#dob-input').val(dateObj.toLocaleDateString());
+                },
+                error: function() {
+                    alert('Error!');
+                }
+            })
+
+        })
+
+    </script>
+</body>
+
+</html>
