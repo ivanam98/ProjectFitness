@@ -8,8 +8,8 @@ import com.project.ProjectFitness.entity.dto.ScheduledWorkoutDTO;
 public interface ScheduledWorkoutService {
 	
 	public List<ScheduledWorkout> getAllScheduledWorkouts();
-	public List<ScheduledWorkout> getAllScheduledWorkoutsByWorkoutId(Long id);
 	public ScheduledWorkout getScheduledWorkoutById(Long id);
 	public ScheduledWorkout createScheduledWorkout(ScheduledWorkoutDTO dto);
+	public List<ScheduledWorkout> getAllScheduledWorkoutsByWorkoutId(Long fcId, Long workoutId);
 
 }

@@ -45,11 +45,12 @@ public class ScheduledWorkoutServiceImpl implements ScheduledWorkoutService {
 	}
 
 	@Override
-	public List<ScheduledWorkout> getAllScheduledWorkoutsByWorkoutId(Long id) {
-		List<ScheduledWorkout> allScheduledWorkouts = scheduledWorkoutRepo.findAll();
+	public List<ScheduledWorkout> getAllScheduledWorkoutsByWorkoutId(Long fcId, Long workoutId) {
+		FitnessCentar fc = fitnessCentarService.getFitnessCentarById(fcId);
+		List<ScheduledWorkout> allScheduledWorkouts = fc.getScheduledWorkouts();
 		List<ScheduledWorkout> scheduledWorkoutsForWorkout = new ArrayList<ScheduledWorkout>();
 		for (ScheduledWorkout scw : allScheduledWorkouts) {
-			if (scw.getWorkout().getId() == id) {
+			if (scw.getWorkout().getId() == workoutId) {
 				scheduledWorkoutsForWorkout.add(scw);
 			}
 		}
@@ -77,5 +78,7 @@ public class ScheduledWorkoutServiceImpl implements ScheduledWorkoutService {
 		fitnessCentarRepo.save(fc);
 		return sw;
 	}
+
+
 
 }

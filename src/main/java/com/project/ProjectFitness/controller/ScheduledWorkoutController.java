@@ -30,9 +30,9 @@ public class ScheduledWorkoutController {
 	
 
 	
-	@GetMapping(value = "/workout/{id}")
-	public ResponseEntity<List<ScheduledWorkout>> getScheduledWorkoutsForWorkout(@PathVariable("id") Long id) {
-		List<ScheduledWorkout> scws = scheduledWorkoutService.getAllScheduledWorkoutsByWorkoutId(id);
+	@GetMapping(value = "/fitness-centar/{id}/workout/{workoutId}")
+	public ResponseEntity<List<ScheduledWorkout>> getScheduledWorkoutsForWorkout(@PathVariable("id") Long fitnessCentarId, @PathVariable("workoutId") Long workoutId) {
+		List<ScheduledWorkout> scws = scheduledWorkoutService.getAllScheduledWorkoutsByWorkoutId(fitnessCentarId, workoutId);
 		return new ResponseEntity<>(scws,HttpStatus.OK);
 	}
 	
@@ -42,16 +42,16 @@ public class ScheduledWorkoutController {
 		return new ResponseEntity<>(sc,HttpStatus.OK);
 	}
 	
-	@GetMapping(value = "/workout/{id}/ascending")
-	public ResponseEntity<List<ScheduledWorkout>> getScheduledWorkoutsForWorkoutAscending(@PathVariable("id") Long id) {
-		List<ScheduledWorkout> scws = scheduledWorkoutService.getAllScheduledWorkoutsByWorkoutId(id);
+	@GetMapping(value = "/fitness-centar/{id}/workout/{workoutId}/ascending")
+	public ResponseEntity<List<ScheduledWorkout>> getScheduledWorkoutsForWorkoutAscending(@PathVariable("id") Long fitnessCentarId, @PathVariable("workoutId") Long workoutId) {
+		List<ScheduledWorkout> scws = scheduledWorkoutService.getAllScheduledWorkoutsByWorkoutId(fitnessCentarId, workoutId);
 		Collections.sort(scws);		
 		return new ResponseEntity<>(scws,HttpStatus.OK);
 	}
 	
-	@GetMapping(value = "/workout/{id}/descending")
-	public ResponseEntity<List<ScheduledWorkout>> getScheduledWorkoutsForWorkoutDescending(@PathVariable("id") Long id) {
-		List<ScheduledWorkout> scws = scheduledWorkoutService.getAllScheduledWorkoutsByWorkoutId(id);
+	@GetMapping(value = "/fitness-centar/{id}/workout/{workoutId}/descending")
+	public ResponseEntity<List<ScheduledWorkout>> getScheduledWorkoutsForWorkoutDescending(@PathVariable("id") Long fitnessCentarId, @PathVariable("workoutId") Long workoutId) {
+		List<ScheduledWorkout> scws = scheduledWorkoutService.getAllScheduledWorkoutsByWorkoutId(fitnessCentarId, workoutId);
 		Collections.sort(scws);
 		Collections.reverse(scws);
 		return new ResponseEntity<>(scws,HttpStatus.OK);
