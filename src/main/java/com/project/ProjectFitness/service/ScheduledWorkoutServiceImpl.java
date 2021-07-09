@@ -17,16 +17,12 @@ public class ScheduledWorkoutServiceImpl implements ScheduledWorkoutService {
 
 	@Autowired
 	private ScheduledWorkoutRepository scheduledWorkoutRepo;
-	
+
 	@Autowired
 	private WorkoutServiceImpl workoutService;
-	
-	@Autowired
-	private HallServiceImpl hallService;
-	
+
 	@Autowired
 	private UserServiceImpl userService;
-	
 
 	@Override
 	public List<ScheduledWorkout> getAllScheduledWorkouts() {
@@ -57,7 +53,7 @@ public class ScheduledWorkoutServiceImpl implements ScheduledWorkoutService {
 		ScheduledWorkout sw = new ScheduledWorkout(dto);
 		sw.setWorkout(workout);
 		sw.setCoachId(userService.getLoggedUser().getId());
-		
+
 		return scheduledWorkoutRepo.save(sw);
 	}
 

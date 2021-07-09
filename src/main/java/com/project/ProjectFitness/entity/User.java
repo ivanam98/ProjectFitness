@@ -30,7 +30,6 @@ public class User{
 	private String username;
 	
 	private String password;
-//	first_name
 	private String firstName;
 	
 	private String lastName;

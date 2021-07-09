@@ -31,7 +31,6 @@ public class HallServiceImpl implements HallService{
 	@Override
 	public Hall saveHall(HallDTO hallDto) {
 		FitnessCentar fc = fitnessCentarService.getFitnessCentarById(hallDto.getFitnessCentarId());
-		
 		Hall hall = new Hall(hallDto);
 		hallRepo.save(hall);
 		fc.getHalls().add(hall);

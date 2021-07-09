@@ -146,6 +146,10 @@ public class UserServiceImpl implements UserService {
 		ScheduledWorkout sc = scheduledWorkoutService.getScheduledWorkoutById(id);
 		Hall hall = hallService.getHallById(sc.getHallId());
 		Member m = (Member) getLoggedUser();
+		
+		if(m.getCheckInWorkout().contains(sc)) {
+			return null;
+		}
 
 		if (sc.getMembersCount() < hall.getCapacity()) {
 			m.getCheckInWorkout().add(sc);
