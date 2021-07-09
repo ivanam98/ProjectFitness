@@ -19,21 +19,22 @@
 <body>
     <div class="jumbotron">
         <div class="row">
-          <div class="col-8 offset-1" id="menu-buttons">
+            <div class="col-8 offset-1" id="menu-buttons">
 
-          </div>
-          <div class="col-3" id="auth-buttons">
-    
-          </div>
+            </div>
+            <div class="col-3" id="auth-buttons">
+
+            </div>
         </div>
-      </div>
+    </div>
     <div class="container">
         <div>
             <div class="row">
                 <div class="col-10">
                 </div>
                 <div class="col-2">
-                    <button class="btn btn-outline-success mb-3" id="new-schWorkout-btn" hidden>Schedule New Workout</button>
+                    <button class="btn btn-outline-success mb-3" id="new-schWorkout-btn" hidden>Schedule New
+                        Workout</button>
                 </div>
             </div>
         </div>
@@ -42,7 +43,7 @@
                 <tr>
                     <th scope="col">ID</th>
                     <th scope="col">Workout</th>
-                    <th scope="col">Time</th>
+                    <th scope="col" id="time-header">Time</th>
                     <th scope="col">Price</th>
                     <th scope="col">Members checked-in</th>
                     <th scope="col">Actions</th>
@@ -63,15 +64,16 @@
         const queryParams = new URLSearchParams(queryParamsString);
         const workoutId = queryParams.get('workoutId');
         const fitnessCenterId = queryParams.get('fitnessCenterId');
+        let sortType = 'ascending';
 
-        $(document).ready(function() {
+        $(document).ready(function () {
             restrict();
             generateAuthButtons();
             generateMenuButtons();
-            
+
             $.ajax({
                 type: "GET",
-                url: "http://localhost:8080/scheduled-workout/workout/" + workoutId,
+                url: "http://localhost:8080/scheduled-workout/fitness-centar" + fitnessCenterId + "/workout/" + workoutId,
                 dataType: "json",
                 success: function (data, status) {
                     let tableRows = ''
@@ -95,22 +97,59 @@
                     });
                     $('#table-content').append(tableRows);
 
-                  
-                    $('#check-in-btn').click(function(e) {
-                    	e.stopPropagation();
+
+                    $('#check-in-btn').click(function (e) {
+                        e.stopPropagation();
                         const rowId = $(this).attr('row-id');
                         checkInWorkout(rowId);
                     })
 
-                    $('#new-schWorkout-btn').click(function() {
+                    $('#new-schWorkout-btn').click(function () {
                         location.href = 'schedule-new-workout.html?fitnessCenterId=' + fitnessCenterId + "&workoutId=" + workoutId;
                     })
-                    
+
                     if (loggedUserType == 'MEMBER') {
                         $('.check-in').attr('hidden', false);
                     } else if (loggedUserType == "COACH") {
                         $('#new-schWorkout-btn').attr('hidden', false);
                     }
+                }
+            })
+        })
+
+        $('#time-header').click(function (e) {
+            e.stopPropagation();
+            if (sortType == 'ascending') {
+                sortType = 'descending';
+            } else {
+                sortType = 'ascending';
+            }
+            $.ajax({
+                type: "GET",
+                url: "http://localhost:8080/scheduled-workout/fitness-centar" + fitnessCenterId + "/workout/" + workoutId + "/" + sortType,
+                dataType: "json",
+                success: function(data, status) {
+                    $('#table-content').empty();
+                    let tableRows = ''
+                    const loggedUserType = getLoggedUserType();
+                    const nowDate = new Date();
+                    data.forEach(function (row) {
+                        const dateObj = new Date(row.dateTime);
+                        if (dateObj < nowDate) {
+                            return;
+                        }
+                        let tableRow = '';
+                        tableRow += '<tr row-id="' + row.id + '">';
+                        tableRow += '<td>' + row.id + '</td>'
+                        tableRow += '<td>' + row.workout?.name + '</td>'
+                        tableRow += '<td>' + new Date(row.dateTime).toLocaleString() + '</td>'
+                        tableRow += '<td>' + row.price + '</td>'
+                        tableRow += '<td>' + row.membersCount + '</td>'
+                        tableRow += '<td><button id="check-in-btn" row-id="' + row.id + '" class="btn btn-primary check-in" hidden>Check In</button></td>'
+                        tableRow += '</tr>'
+                        tableRows += tableRow;
+                    });
+                    $('#table-content').append(tableRows);
                 }
             })
         })
