@@ -10,22 +10,16 @@ public class HallDTO {
 	private long capacity;
 
 	private String name;
-	
+
 	private long fitnessCentarId;
-
-	private FitnessCentar fitnessCentar;
-
-	//private List<ScheduledWorkout> scheduledWorkouts;
 
 	private boolean deleted;
 
-	public HallDTO(long id, long capacity, String name, FitnessCentar fitnessCentar,
-		boolean deleted) {
+	public HallDTO(long id, long capacity, String name, boolean deleted) {
 		super();
 		this.id = id;
 		this.capacity = capacity;
 		this.name = name;
-		this.fitnessCentar = fitnessCentar;
 		this.deleted = deleted;
 	}
 
@@ -66,14 +60,6 @@ public class HallDTO {
 		this.name = name;
 	}
 
-	public FitnessCentar getFitnessCentar() {
-		return fitnessCentar;
-	}
-
-	public void setFitnessCentar(FitnessCentar fitnessCentar) {
-		this.fitnessCentar = fitnessCentar;
-	}
-
 	public boolean isDeleted() {
 		return deleted;
 	}
@@ -89,7 +75,5 @@ public class HallDTO {
 	public void setFitnessCentarId(long fitnessCentarId) {
 		this.fitnessCentarId = fitnessCentarId;
 	}
-	
-	
 
 }

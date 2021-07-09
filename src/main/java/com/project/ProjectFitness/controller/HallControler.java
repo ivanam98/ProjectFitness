@@ -39,11 +39,11 @@ public class HallControler {
 	
 	@PutMapping(value = "/update", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<?> updateHall(@RequestBody HallDTO dto) {
-		Hall hall = hallService.saveHall(dto);
+		Hall hall = hallService.updateHall(dto);
 		return new ResponseEntity<>(hall,HttpStatus.OK);
 	}
 	
-	@DeleteMapping(value = "/delete/{id}")
+	@PostMapping(value = "/delete/{id}")
 	public ResponseEntity<?> deleteHall(@PathVariable("id") Long id) {
 		Hall hall = hallService.deleteHall(id);
 		return new ResponseEntity<>(hall,HttpStatus.OK);

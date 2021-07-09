@@ -56,7 +56,7 @@ function updateFitnessCenter(data) {
 
 function deleteHall(id) {
     $.ajax({
-        type: "DELETE",
+        type: "POST",
         url: 'http://localhost:8080/hall/delete/' + id,
         headers: {
             "X-Auth-T": getToken()
@@ -82,7 +82,7 @@ function createNewHall(data) {
         data: JSON.stringify(data),
         success: function (data, status) {
             alert("New Hall created!");
-            location.href = 'halls.html';
+            location.href = 'halls.html?fitnessCenter=' + data.fitnessCentarId;
         },
         error: function() {
             alert('error!');
@@ -92,7 +92,7 @@ function createNewHall(data) {
 
 function updateHall(data) {
     $.ajax({
-        type: "POST",
+        type: "PUT",
         url: "http://localhost:8080/hall/update",
         headers: {
             "X-Auth-T": getToken(),

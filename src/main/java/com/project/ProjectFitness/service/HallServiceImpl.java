@@ -31,23 +31,34 @@ public class HallServiceImpl implements HallService{
 	@Override
 	public Hall saveHall(HallDTO hallDto) {
 		FitnessCentar fc = fitnessCentarService.getFitnessCentarById(hallDto.getFitnessCentarId());
-		hallDto.setFitnessCentar(fc);
+		
 		Hall hall = new Hall(hallDto);
 		hallRepo.save(hall);
 		fc.getHalls().add(hall);
 		fitnessCentarRepo.save(fc);
 		return hall;
 	}
+	
+	@Override 
+	public Hall updateHall(HallDTO hallDto) {
+		Hall hall = getHallById(hallDto.getId());
+		hall.setCapacity(hallDto.getCapacity());
+		hall.setName(hallDto.getName());
+		return hallRepo.save(hall);
+	}
 
 	@Override
 	public List<Hall> getAllHalls() {
-		return hallRepo.findAll();
+		return hallRepo.findByDeletedFalse();
 	}
 
 	@Override
 	public Hall deleteHall(Long id) {
 		Hall hall = hallRepo.findById(id).orElse(null);
 		hall.setDeleted(true);
+		FitnessCentar fc = fitnessCentarService.getFitnessCentarById(hall.getFitnessCentarId());
+		fc.getHalls().remove(hall);
+		fitnessCentarRepo.save(fc);
 		hallRepo.save(hall);
 		return hall;
 	}

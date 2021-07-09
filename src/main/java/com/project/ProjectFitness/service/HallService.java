@@ -11,6 +11,7 @@ public interface HallService {
 	public List<Hall> getAllHalls();
 	public Hall deleteHall(Long id);
 	public List<Hall> getHallForFitnessCentar(Long id);
+	public Hall updateHall(HallDTO hallDto);
 	
 
 }
